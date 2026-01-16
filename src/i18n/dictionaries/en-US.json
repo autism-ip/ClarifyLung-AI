@@ -1,0 +1,250 @@
+{
+  "nav": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "docs": "Docs",
+    "signin": "Sign in",
+    "download": "Download",
+    "signout": "Sign out",
+    "profile": "Profile"
+  },
+  "home": {
+    "hero": {
+      "title": "Lung Cancer Detection More Efficiently",
+      "description": "Our lung cancer detection tool helps you better detect lung cancer and improve lung cancer detection efficiency",
+      "learnMore": "Learn More",
+      "watchDemo": "Watch Demo"
+    },
+    "cta": {
+      "title": "Get Started Now",
+      "description": "Download our lung cancer detection tool for free and enhance your lung cancer detection experience",
+      "button": "Get Lung Cancer Detection Tool"
+    }
+  },
+  "footer": {
+    "product": "Product",
+    "resources": "Resources",
+    "social": "Social",
+    "support": "Support",
+    "company": "Company",
+    "copyright": "© 2025 ClarifyLung AI. All rights reserved.",
+    "links": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "changelog": "Changelog",
+      "roadmap": "Roadmap",
+      "docs": "Docs",
+      "dev": "Dev",
+      "api": "API",
+      "faq": "FAQ",
+      "help": "Help",
+      "contact": "Contact",
+      "feedback": "Feedback",
+      "status": "Status",
+      "about": "About",
+      "terms": "Terms",
+      "privacy": "Privacy",
+      "jobs": "Jobs",
+      "twitter": "Twitter",
+      "github": "Github",
+      "jike": "Jike",
+      "xhs": "XiaoHongShu",
+      "bento": "Bento",
+      "freeourdays": "Free Our Days",
+      "githubtree": "Github Tree Map",
+      "distributer": "Distributer"
+    }
+  },
+  "metadata": {
+    "title": "ClarifyLung AI - Effective Lung Cancer Detection",
+    "description": "A powerful lung cancer detection tool that helps you better detect lung cancer",
+    "keywords": "Lung Cancer Detection, Lung Cancer Detection Tool, Lung Cancer Detection Software, Lung Cancer Detection App"
+  },
+  "common": {
+    "brand": "ClarifyLung AI",
+    "loading": "Loading..."
+  },
+  "features": {
+    "title": "Powerful Features",
+    "description": "Explore our core features to take your lung cancer detection experience to the next level",
+    "tabs": {
+      "title": "Lung Cancer Detection",
+      "description": "Easily detect lung cancer to boost productivity"
+    },
+    "bookmarks": {
+      "title": "Bookmark Management",
+      "description": "Quickly access your lung cancer detection to enhance lung cancer detection efficiency"
+    },
+    "share": {
+      "title": "Share",
+      "description": "Easily share your lung cancer detection to boost collaboration efficiency"
+    },
+    "security": {
+      "title": "Security",
+      "description": "Protect your privacy and enhance lung cancer detection security"
+    }
+  },
+  "faq": {
+    "title": "FAQ",
+    "description": "Find answers to commonly asked lung cancer detection questions",
+    "tabs": {
+      "general": "General",
+      "features": "Features",
+      "technical": "Lung Cancer Detection"
+    },
+    "questions": {
+      "general": [
+        {
+          "question": "Is this lung cancer detection tool free?",
+          "answer": "Yes, we offer a free version for all users. We also provide a paid Pro version with additional advanced features."
+        },
+        {
+          "question": "How do I install the lung cancer detection tool?",
+          "answer": "You can download it directly from the Chrome Web Store or click the 'Download' button on our website."
+        }
+      ],
+      "features": [
+        {
+          "question": "How many tabs can I manage?",
+          "answer": "Free version supports up to 50 lung cancer detections, while Pro version has no limit."
+        },
+        {
+          "question": "Does it support lung cancer detection grouping?",
+          "answer": "Yes, we support both custom grouping and smart grouping features."
+        }
+      ],
+      "technical": [
+        {
+          "question": "Which browsers are supported?",
+          "answer": "Currently supports Chrome, Edge and other Chromium-based browsers."
+        },
+        {
+          "question": "Where is my data stored?",
+          "answer": "All data is stored locally on your device. We don't upload your browsing data."
+        }
+      ]
+    }
+  },
+  "doc": {
+    "backToList": "Back to Doc List",
+    "title": "Detection Documents",
+    "description": "Sharing lung cancer detection documents and lung cancer detection tips",
+    "loadMore": "Load More",
+    "documents": [
+         {
+           "id": 1,
+           "title": "Lung Cancer Detection Document -- English",
+           "description": "Learn how to detect lung cancer",
+           "date": "2024-03-15",
+           "readTime": "10 min read",
+           "slug": "lung-cancer-detection-document"
+         }
+       ]
+  },
+  "auth": {
+    "signin": {
+      "title": "Welcome back",
+      "description": "Enter your email and password to sign in",
+      "submitButton": "Sign in",
+      "noAccount": "Don't have an account?",
+      "signupLink": "Sign up",
+      "errors": {
+        "userNotFound": "User not found",
+        "wrongPassword": "Incorrect password"
+      },
+      "success": "Sign in successful!",
+      "error": "Sign in failed, please check your email and password!"
+    },
+    "signup": {
+      "title": "Create an account",
+      "description": "Enter your email and password to sign up",
+      "submitButton": "Sign up",
+      "hasAccount": "Already have an account?",
+      "signinLink": "Sign in",
+      "success": "Sign up successful!",
+      "error": "Sign up failed, please check your email and password!"
+    },
+    "form": {
+      "email": "Email",
+      "password": "Password",
+      "emailPlaceholder": "name@example.com",
+      "continueWith": "Or continue with",
+      "errors": {
+        "emailRequired": "Please enter your email",
+        "passwordRequired": "Please enter your password"
+      }
+    },
+    "signout": {
+      "success": "Sign out successful!"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "tabs": {
+      "profile": "Profile",
+      "subscription": "Subscription",
+      "settings": "Settings"
+    },
+    "basicInfo": "Basic Information",
+    "email": "Email",
+    "joinDate": "Join Date",
+    "subscription": "Subscription",
+    "currentPlan": "Current Plan",
+    "freePlan": "Free Plan",
+    "proPlan": "Pro Plan",
+    "expireDate": "Expire Date",
+    "settings": "Settings",
+    "settingsComingSoon": "More settings coming soon..."
+  },
+  "pricing": {
+    "title": "Simple, Transparent Pricing",
+    "description": "Choose the plan that's right for you, upgrade or downgrade anytime",
+    "plans": {
+      "free": {
+        "name": "Free",
+        "price": "$0",
+        "description": "Perfect for individual users",
+        "features": [
+          "Manage up to 50 lung cancer detections",
+          "Basic lung cancer detection grouping",
+          "Quick bookmarking",
+          "Basic analytics"
+        ]
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "$9",
+        "description": "Great for power users",
+        "features": [
+          "Unlimited lung cancer detection management",
+          "Advanced lung cancer detection grouping",
+          "Cloud sync",
+          "Detailed analytics",
+          "Priority support",
+          "Custom lung cancer detection themes"
+        ]
+      },
+      "team": {
+        "name": "Team",
+        "price": "$29",
+        "description": "Best for team collaboration",
+        "features": [
+          "All Pro features",
+          "Team collaboration",
+          "Shared bookmarks",
+          "Team analytics",
+          "Dedicated manager",
+          "API access"
+        ]
+      }
+    },
+    "cta": {
+      "free": "Start Free",
+      "paid": "Get Started"
+    },
+    "footer": {
+      "refund": "All plans come with a 14-day money-back guarantee. If you have any questions,",
+      "contact": "contact us"
+    }
+  }
+}

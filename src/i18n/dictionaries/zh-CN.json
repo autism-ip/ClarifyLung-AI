@@ -1,0 +1,251 @@
+{
+  "nav": {
+    "features": "功能",
+    "pricing": "价格",
+    "docs": "文档",
+    "signin": "登录",
+    "signout": "退出登录",
+    "profile": "个人中心",
+    "download": "下载插件"
+  },
+  "home": {
+    "hero": {
+      "title": "让肺癌检测更高效",
+      "description": "我们的肺癌检测工具帮助您更好地检测肺癌、提升肺癌检测效率",
+      "learnMore": "了解更多",
+      "watchDemo": "查看演示"
+    },
+    "cta": {
+      "title": "立即安装使用",
+      "description": "免费下载我们的肺癌检测工具，提升您的肺癌检测体验",
+      "button": "获取肺癌检测工具"
+    }
+  },
+  "footer": {
+    "product": "产品",
+    "resources": "资源",
+    "social": "社交",
+    "support": "支持",
+    "company": "公司",
+    "copyright": "© 2025 ClarifyLung AI. 保留所有权利.",
+    "links": {
+      "features": "功能",
+      "pricing": "价格",
+      "changelog": "更新日志",
+      "roadmap": "路线图",
+      "docs": "文档",
+      "dev": "开发者",
+      "api": "API",
+      "faq": "常见问题",
+      "help": "帮助",
+      "contact": "联系我们",
+      "feedback": "反馈",
+      "status": "状态",
+      "about": "关于我们",
+      "terms": "条款",
+      "privacy": "隐私",
+      "jobs": "招聘",
+      "blog": "博客",
+      "twitter": "推特",
+      "github": "Github",
+      "jike": "即刻",
+      "xhs": "小红书",
+      "bento": "yeheboo",
+      "freeourdays": "freeourdays",
+      "githubtree": "Github Tree Map",
+      "distributer": "Distributer"
+    }
+  },
+  "metadata": {
+    "title": "ClarifyLung AI - 有效的肺癌检测",
+    "description": "一款强大的肺癌检测工具，帮助您更好地检测肺癌",
+    "keywords": "肺癌检测, 肺癌检测工具, 肺癌检测软件, 肺癌检测应用"
+  },
+  "common": {
+    "brand": "ClarifyLung AI",
+    "loading": "加载中..."
+  },
+  "features": {
+    "title": "强大的功能特性",
+    "description": "探索我们的核心功能，让您的肺癌检测体验更上一层楼",
+    "tabs": {
+      "title": "肺癌检测",
+      "description": "轻松管理您的标签页，提升工作效率"
+    },
+    "bookmarks": {
+      "title": "书签管理",
+      "description": "快速访问您的书签，提升浏览效率"
+    },
+    "share": {
+      "title": "分享",
+      "description": "轻松分享您的标签页，提升协作效率"
+    },
+    "security": {
+      "title": "安全",
+      "description": "保护您的隐私，提升浏览安全"
+    }
+  },
+  "faq": {
+    "title": "常见问题",
+    "description": "解答您可能遇到的问题",
+    "tabs": {
+      "general": "基本问题",
+      "features": "功能相关",
+      "technical": "技术支持"
+    },
+    "questions": {
+      "general": [
+        {
+          "question": "这个插件是免费的吗？",
+          "answer": "是的,我们提供免费版本供所有用户使用。同时也提供付费专业版,拥有更多高级功能。"
+        },
+        {
+          "question": "如何安装这个插件？",
+          "answer": "您可以直接从 Chrome 网上应用店搜索下载,或点击我们网站上的'下载插件'按钮进行安装。"
+        }
+      ],
+      "features": [
+        {
+          "question": "支持多少个标签页同时管理？",
+          "answer": "免费版支持同时管理最多 50 个标签页,专业版无限制。"
+        },
+        {
+          "question": "是否支持标签页分组？",
+          "answer": "是的,支持自定义分组和智能分组两种方式。"
+        }
+      ],
+      "technical": [
+        {
+          "question": "插件支持哪些浏览器？",
+          "answer": "目前支持 Chrome、Edge 等主流 Chromium 内核浏览器。"
+        },
+        {
+          "question": "数据存储在哪里？",
+          "answer": "所有数据都存储在本地,我们不会上传您的浏览数据。"
+        }
+      ]
+    }
+  },
+  "doc": {
+    "backToList": "返回文档列表",
+    "title": "检测文档",
+    "description": "分享肺癌检测文档和肺癌检测技巧",
+    "loadMore": "加载更多",
+    "documents": [
+         {
+           "id": 1, 
+           "title": "肺癌检测文档--中文",
+           "description": "学习如何检测肺癌",
+           "date": "2024-03-15",
+           "readTime": "10分钟阅读",
+           "slug": "lung-cancer-detection-document"
+         }
+       ]
+  },
+  "auth": {
+    "signin": {
+      "title": "欢迎回来",
+      "description": "请输入您的邮箱和密码登录",
+      "submitButton": "登录",
+      "noAccount": "没有账号?",
+      "signupLink": "注册",
+      "success": "登录成功!",
+      "error": "登录失败,请检查邮箱和密码!",
+      "errors": {
+        "userNotFound": "用户不存在",
+        "wrongPassword": "密码错误"
+      }
+    },
+    "signup": {
+      "title": "创建账号", 
+      "description": "请输入您的邮箱和密码注册",
+      "submitButton": "注册",
+      "hasAccount": "已有账号?",
+      "signinLink": "登录",
+      "success": "注册成功!",
+      "error": "注册失败,请检查邮箱和密码!"
+    },
+    "form": {
+      "email": "邮箱",
+      "password": "密码",
+      "emailPlaceholder": "name@example.com",
+      "continueWith": "或继续使用",
+      "errors": {
+        "emailRequired": "请输入邮箱",
+        "passwordRequired": "请输入密码"
+      }
+    },
+    "signout": {
+      "success": "退出成功!"
+    }
+  },
+  "profile": {
+    "title": "个人中心",
+    "tabs": {
+      "profile": "基本信息",
+      "subscription": "订阅信息", 
+      "settings": "账号设置"
+    },
+    "basicInfo": "基本信息",
+    "email": "邮箱",
+    "joinDate": "注册时间",
+    "subscription": "订阅信息",
+    "currentPlan": "当前方案",
+    "freePlan": "免费版",
+    "proPlan": "专业版",
+    "expireDate": "到期时间",
+    "settings": "账号设置",
+    "settingsComingSoon": "更多设置选项开发中..."
+  },
+  "pricing": {
+    "title": "简单透明的价格方案",
+    "description": "选择最适合您的方案，随时可以升级或降级",
+    "plans": {
+      "free": {
+        "name": "免费版",
+        "price": "¥0",
+        "description": "适合个人用户使用",
+        "features": [
+          "最多管理50个标签页",
+          "基础标签分组功能",
+          "快速书签功能",
+          "基础数据统计"
+        ]
+      },
+      "pro": {
+        "name": "专业版", 
+        "price": "¥29",
+        "description": "适合专业用户使用",
+        "features": [
+          "无限标签页管理",
+          "高级标签分组功能",
+          "云端同步功能",
+          "详细数据分析",
+          "优先技术支持",
+          "自定义主题"
+        ]
+      },
+      "team": {
+        "name": "团队版",
+        "price": "¥99",
+        "description": "适合团队协作使用", 
+        "features": [
+          "所有专业版功能",
+          "团队协作功能",
+          "共享书签管理",
+          "团队数据分析",
+          "专属客户经理",
+          "API访问权限"
+        ]
+      }
+    },
+    "cta": {
+      "free": "免费开始",
+      "paid": "立即购买"
+    },
+    "footer": {
+      "refund": "所有方案均支持14天无理由退款，如有问题请",
+      "contact": "联系我们"
+    }
+  }
+}
