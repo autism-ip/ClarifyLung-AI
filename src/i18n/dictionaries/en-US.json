@@ -18,15 +18,12 @@
     "cta": {
       "title": "Get Started Now",
       "description": "Download our lung cancer detection tool for free and enhance your lung cancer detection experience",
-      "button": "Get Lung Cancer Detection Tool"
+      "button": "Get Lung Cancer Detection Tool for free"
     }
   },
   "footer": {
-    "product": "Product",
-    "resources": "Resources",
     "social": "Social",
     "support": "Support",
-    "company": "Company",
     "copyright": "© 2025 ClarifyLung AI. All rights reserved.",
     "links": {
       "features": "Features",
@@ -40,25 +37,17 @@
       "help": "Help",
       "contact": "Contact",
       "feedback": "Feedback",
-      "status": "Status",
-      "about": "About",
-      "terms": "Terms",
-      "privacy": "Privacy",
-      "jobs": "Jobs",
       "twitter": "Twitter",
       "github": "Github",
       "jike": "Jike",
       "xhs": "XiaoHongShu",
-      "bento": "Bento",
-      "freeourdays": "Free Our Days",
-      "githubtree": "Github Tree Map",
-      "distributer": "Distributer"
+      "bento": "Zen"
     }
   },
   "metadata": {
     "title": "ClarifyLung AI - Effective Lung Cancer Detection",
     "description": "A powerful lung cancer detection tool that helps you better detect lung cancer",
-    "keywords": "Lung Cancer Detection, Lung Cancer Detection Tool, Lung Cancer Detection Software, Lung Cancer Detection App"
+    "keywords": "Lung Cancer Detection, Lung Cancer Detection Tool, Lung Cancer Detection Software, Lung Cancer Detection Extension"
   },
   "common": {
     "brand": "ClarifyLung AI",
@@ -67,21 +56,21 @@
   "features": {
     "title": "Powerful Features",
     "description": "Explore our core features to take your lung cancer detection experience to the next level",
-    "tabs": {
-      "title": "Lung Cancer Detection",
-      "description": "Easily detect lung cancer to boost productivity"
+    "hybrid_architecture": {
+      "title": "CNN-Transformer Hybrid Architecture",
+      "description": "Combine ResNet-50 for local multi-scale feature extraction with Transformer for global context and long-range dependencies"
     },
-    "bookmarks": {
-      "title": "Bookmark Management",
-      "description": "Quickly access your lung cancer detection to enhance lung cancer detection efficiency"
+    "data_enhancement": {
+      "title": "Customized Data Enhancement",
+      "description": "Use random flips, rotation, and color jittering to improve data diversity and model robustness"
     },
-    "share": {
-      "title": "Share",
-      "description": "Easily share your lung cancer detection to boost collaboration efficiency"
+    "cross_attention": {
+      "title": "Bidirectional Cross-Attention Mechanism",
+      "description": "Implement multi-level cross-attention modules to achieve deep dynamic interaction and fusion between local features and global information"
     },
-    "security": {
-      "title": "Security",
-      "description": "Protect your privacy and enhance lung cancer detection security"
+    "explainable_ai": {
+      "title": "Multi-dimensional Explainable AI",
+      "description": "Use Grad-CAM++ and attention map visualization techniques to align AI focus points with clinical diagnostic logic, solving the \"black box\" problem"
     }
   },
   "faq": {
@@ -90,54 +79,49 @@
     "tabs": {
       "general": "General",
       "features": "Features",
-      "technical": "Lung Cancer Detection"
+      "technical": "Technical Support"
     },
     "questions": {
       "general": [
         {
-          "question": "Is this lung cancer detection tool free?",
-          "answer": "Yes, we offer a free version for all users. We also provide a paid Pro version with additional advanced features."
+          "question": "What is the main purpose of this research project?",
+          "answer": "The project aims to develop a smart auxiliary diagnosis system for lung cancer X-ray images based on a CNN-Transformer hybrid model to improve the accuracy and efficiency of early diagnosis. It addresses the limitations of traditional X-ray diagnosis, such as missed diagnoses of small lesions and the difficulty of analyzing complex images."
         },
         {
-          "question": "How do I install the lung cancer detection tool?",
-          "answer": "You can download it directly from the Chrome Web Store or click the 'Download' button on our website."
-        }
+          "question": "What are the expected outcomes of this project?",
+          "answer": "The expected outcomes include one scientific research paper and a comprehensive summary report containing experimental results and interpretability analysis.The system aims to assist clinical doctors by reducing missed diagnosis rates and optimizing medical efficiency."}
       ],
       "features": [
         {
-          "question": "How many tabs can I manage?",
-          "answer": "Free version supports up to 50 lung cancer detections, while Pro version has no limit."
-        },
+          "question": "How does the hybrid model architecture work?",
+          "answer": "The system utilizes a \"dual-stream architecture\": a CNN stream (based on ResNet-50) extracts local multi-scale features, while a parallel Transformer stream captures global context and long-range dependencies. These streams interact dynamically through a bidirectional cross-attention mechanism to fuse features before classification." },
         {
-          "question": "Does it support lung cancer detection grouping?",
-          "answer": "Yes, we support both custom grouping and smart grouping features."
-        }
+          "question": "Is the system's decision-making process interpretable?",
+          "answer": "Yes, the project integrates Explainable AI (XAI) techniques. It uses Grad-CAM++ to visualize the CNN stream's focus on local lesions and attention maps to show the Transformer's global context focus. This aligns the model's \"focus points\" with clinical diagnostic logic to solve the \"black box\" problem." }
       ],
       "technical": [
         {
-          "question": "Which browsers are supported?",
-          "answer": "Currently supports Chrome, Edge and other Chromium-based browsers."
-        },
+          "question": "What datasets and data processing methods are used?",
+          "answer": "The project uses Kaggle public datasets (IQ-OTH/NCCD, LungCancer4Types, etc.) containing normal, benign, and malignant images. Data processing includes resizing, normalization, and augmentation strategies like random flips and rotation, with a 70% training, 15% validation, and 15% testing split."   },
         {
-          "question": "Where is my data stored?",
-          "answer": "All data is stored locally on your device. We don't upload your browsing data."
-        }
+          "question": "What is the technical implementation environment?",
+          "answer": "The model is implemented using Python and deep learning frameworks, utilizing the Adam optimizer and a weighted cross-entropy loss function.The training process involves five-fold cross-validation to ensure generalization and support GPU acceleration for computation."  }
       ]
     }
   },
   "doc": {
     "backToList": "Back to Doc List",
-    "title": "Detection Documents",
-    "description": "Sharing lung cancer detection documents and lung cancer detection tips",
+    "title": "Detailed Documents",
+    "description": "Sharing detailed documents and some lung cancer detection tips",
     "loadMore": "Load More",
     "documents": [
          {
            "id": 1,
-           "title": "Lung Cancer Detection Document -- English",
-           "description": "Learn how to detect lung cancer",
+           "title": "Detailed Document -- English",
+           "description": "Learn some lung cancer detection tips",
            "date": "2024-03-15",
            "readTime": "10 min read",
-           "slug": "lung-cancer-detection-document"
+           "slug": "detailed-document"
          }
        ]
   },

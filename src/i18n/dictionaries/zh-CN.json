@@ -18,15 +18,12 @@
     "cta": {
       "title": "立即安装使用",
       "description": "免费下载我们的肺癌检测工具，提升您的肺癌检测体验",
-      "button": "获取肺癌检测工具"
+      "button": "免费获取肺癌检测工具"
     }
   },
   "footer": {
-    "product": "产品",
-    "resources": "资源",
     "social": "社交",
     "support": "支持",
-    "company": "公司",
     "copyright": "© 2025 ClarifyLung AI. 保留所有权利.",
     "links": {
       "features": "功能",
@@ -40,26 +37,17 @@
       "help": "帮助",
       "contact": "联系我们",
       "feedback": "反馈",
-      "status": "状态",
-      "about": "关于我们",
-      "terms": "条款",
-      "privacy": "隐私",
-      "jobs": "招聘",
-      "blog": "博客",
       "twitter": "推特",
       "github": "Github",
       "jike": "即刻",
       "xhs": "小红书",
-      "bento": "yeheboo",
-      "freeourdays": "freeourdays",
-      "githubtree": "Github Tree Map",
-      "distributer": "Distributer"
+      "bento": "Zen"
     }
   },
   "metadata": {
     "title": "ClarifyLung AI - 有效的肺癌检测",
     "description": "一款强大的肺癌检测工具，帮助您更好地检测肺癌",
-    "keywords": "肺癌检测, 肺癌检测工具, 肺癌检测软件, 肺癌检测应用"
+    "keywords": "肺癌检测, 肺癌检测工具, 肺癌检测软件, 肺癌检测插件"
   },
   "common": {
     "brand": "ClarifyLung AI",
@@ -68,21 +56,21 @@
   "features": {
     "title": "强大的功能特性",
     "description": "探索我们的核心功能，让您的肺癌检测体验更上一层楼",
-    "tabs": {
-      "title": "肺癌检测",
-      "description": "轻松管理您的标签页，提升工作效率"
+    "hybrid_architecture": {
+      "title": "CNN-Transformer 混合架构",
+      "description": "结合 ResNet-50 提取局部特征与 Transformer 捕捉全局上下文，实现优势互补"
     },
-    "bookmarks": {
-      "title": "书签管理",
-      "description": "快速访问您的书签，提升浏览效率"
+    "data_enhancement": {
+      "title": "定制化数据增强",
+      "description": "采用随机翻转、旋转及颜色抖动等策略，有效提升数据多样性与模型鲁棒性"
     },
-    "share": {
-      "title": "分享",
-      "description": "轻松分享您的标签页，提升协作效率"
+    "cross_attention": {
+      "title": "双向交叉注意力机制",
+      "description": "通过多层级交叉注意力模块，实现局部特征与全局信息的深度动态交互与融合"
     },
-    "security": {
-      "title": "安全",
-      "description": "保护您的隐私，提升浏览安全"
+    "explainable_ai": {
+      "title": "多维度可解释性分析",
+      "description": "利用 Grad-CAM++ 和注意力图可视化技术，将 AI 关注点与医生诊断逻辑对齐，解决“黑箱”问题"
     }
   },
   "faq": {
@@ -96,49 +84,49 @@
     "questions": {
       "general": [
         {
-          "question": "这个插件是免费的吗？",
-          "answer": "是的,我们提供免费版本供所有用户使用。同时也提供付费专业版,拥有更多高级功能。"
+          "question": "本研究项目的主要目的是什么？",
+          "answer": "本项目旨在开发基于 CNN-Transformer 混合模型的智能肺癌 X 光影像辅助诊断系统，以提高早期诊断的准确率和效率。它解决了传统 X 光诊断的局限性，例如小病灶易漏诊以及难以分析复杂影像的问题。"
         },
         {
-          "question": "如何安装这个插件？",
-          "answer": "您可以直接从 Chrome 网上应用店搜索下载,或点击我们网站上的'下载插件'按钮进行安装。"
+          "question": "本研究项目的预期成果是什么？",
+          "answer": "预期成果包括一篇科学研究论文和一份包含实验结果和可解释性分析的综合报告。该系统旨在辅助临床医生，通过降低漏诊率并优化医疗效率，提高肺癌诊断的准确性和效率。"
         }
       ],
       "features": [
         {
-          "question": "支持多少个标签页同时管理？",
-          "answer": "免费版支持同时管理最多 50 个标签页,专业版无限制。"
+          "question": "混合模型的架构是如何工作的？",
+          "answer": "系统采用\"双流架构\"：一个基于 ResNet-50 的 CNN 流提取局部多尺度特征，同时一个并行的 Transformer 流捕获全局上下文和长程依赖。这些流通过双向交叉注意力机制动态交互，融合特征后再进行分类。"
         },
         {
-          "question": "是否支持标签页分组？",
-          "answer": "是的,支持自定义分组和智能分组两种方式。"
+          "question": "系统的决策过程是否可解释？",
+          "answer": "是的,本项目集成了可解释人工智能（XAI）技术。它使用 Grad-CAM++ 可视化 CNN 流的焦点区域，以及注意力图展示 Transformer 的全局关注点。这确保了模型的\"关注点\"与临床诊断逻辑一致，解决了\"黑盒\"问题。"
         }
       ],
       "technical": [
         {
-          "question": "插件支持哪些浏览器？",
-          "answer": "目前支持 Chrome、Edge 等主流 Chromium 内核浏览器。"
+          "question": "使用了哪些数据集和数据处理方法？",
+          "answer": "项目使用了 Kaggle 公开数据集（IQ-OTH/NCCD、LungCancer4Types 等），包含正常、良性、恶性图像。数据处理包括调整大小、归一化以及随机翻转和旋转等增强策略，训练、验证和测试比例为 70%、15%、15%。"
         },
         {
-          "question": "数据存储在哪里？",
-          "answer": "所有数据都存储在本地,我们不会上传您的浏览数据。"
+          "question": "技术实现环境是什么？",
+          "answer": "模型使用 Python 和深度学习框架实现，采用 Adam 优化器和加权交叉熵损失函数。训练过程采用五折交叉验证，确保泛化性，并支持 GPU 加速计算。" 
         }
       ]
     }
   },
   "doc": {
     "backToList": "返回文档列表",
-    "title": "检测文档",
-    "description": "分享肺癌检测文档和肺癌检测技巧",
+    "title": "详细文档",
+    "description": "分享一些肺癌检测技巧",
     "loadMore": "加载更多",
     "documents": [
          {
            "id": 1, 
-           "title": "肺癌检测文档--中文",
-           "description": "学习如何检测肺癌",
+           "title": "详细文档--中文",
+           "description": "学习一些肺癌检测技巧",
            "date": "2024-03-15",
            "readTime": "10分钟阅读",
-           "slug": "lung-cancer-detection-document"
+           "slug": "detailed-document"
          }
        ]
   },

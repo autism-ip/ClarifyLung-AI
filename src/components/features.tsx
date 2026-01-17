@@ -18,23 +18,23 @@ export default async function Features({
   const features = [
     {
       icon: <BookOpen className="h-6 w-6" />,
-      title: dict.features.tabs.title,
-      description: dict.features.tabs.description
+      title: dict.features.hybrid_architecture.title,
+      description: dict.features.hybrid_architecture.description
     },
     {
       icon: <Bookmark className="h-6 w-6" />,
-      title: dict.features.bookmarks.title,
-      description: dict.features.bookmarks.description
+      title: dict.features.data_enhancement.title,
+      description: dict.features.data_enhancement.description
     },
     {
       icon: <Share2 className="h-6 w-6" />,
-      title: dict.features.share.title,
-      description: dict.features.share.description
+      title: dict.features.cross_attention.title,
+      description: dict.features.cross_attention.description
     },
     {
       icon: <Shield className="h-6 w-6" />,
-      title: dict.features.security.title,
-      description: dict.features.security.description
+      title: dict.features.explainable_ai.title,
+      description: dict.features.explainable_ai.description
     }
   ]
 

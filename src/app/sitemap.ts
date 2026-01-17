@@ -29,7 +29,7 @@ export default async function sitemap() {
       });
     }
 
-    // 添加博客文章页面
+    // 添加文档页面
     for (const doc of docs) {
       sitemapEntries.push({
         url: `${baseUrl}/${locale}/doc/${doc.slug}`,

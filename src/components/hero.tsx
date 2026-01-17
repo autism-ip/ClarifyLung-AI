@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { getDictionary } from "@/i18n/get-dictionary"
 import type { Locale } from "@/i18n/config"
+import Link from "next/link"
 
 export default async function Hero({
   lang
@@ -20,7 +21,9 @@ export default async function Hero({
             {dict.home.hero.description}
           </p>
           <div className="flex flex-col gap-2 min-[400px]:flex-row">
-            <Button size="lg">{dict.home.hero.learnMore}</Button>
+            <Button size="lg" asChild>
+              <Link href={`/${lang}/doc`}>{dict.home.hero.learnMore}</Link>
+            </Button>
             <Button size="lg" variant="outline">{dict.home.hero.watchDemo}</Button>
           </div>
         </div>
