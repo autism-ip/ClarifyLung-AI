@@ -1,9 +1,9 @@
 import Link from "next/link"
-import { Chrome } from "lucide-react"
 import { getDictionary } from "@/i18n/get-dictionary"
 import type { Locale } from "@/i18n/config"
 import { NavbarActions } from "./navbar-actions"
 import { MobileNav } from "./mobile-nav"
+import Image from "next/image"
 
 export default async function Navbar({
   lang
@@ -17,7 +17,13 @@ export default async function Navbar({
       <div className="container flex h-14 items-center">
         <div className="mr-4 flex items-center space-x-2">
           <Link href={`/${lang}`} className="flex items-center space-x-2">
-            <Chrome className="h-6 w-6" />
+            <Image 
+              src="/images/logo.png" 
+              alt="Logo" 
+              width={48} 
+              height={48} 
+              className="dark:invert"
+            />
             <span className="font-bold">{dict.common.brand}</span>
           </Link>
         </div>

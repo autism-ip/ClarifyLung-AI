@@ -10,4 +10,4 @@ Disallow: /*/signup
 Disallow: /*/profile
 
 # sitemap 配置
-Sitemap: https://distributer.top/sitemap.xml
+Sitemap: https://lungcancerdetection.top/sitemap.xml
