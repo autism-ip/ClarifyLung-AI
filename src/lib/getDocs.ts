@@ -4,7 +4,7 @@ import matter from 'gray-matter'
 import { remark } from 'remark'
 import html from 'remark-html'
 
-const docsDirectory = path.join(process.cwd(), 'src/docs')
+const docsDirectory = path.join(process.cwd(), 'src/documents')
 
 export async function getDocs(slug: string, lang: string) {
   const fullPath = path.join(docsDirectory, `${slug}.${lang}.md`)

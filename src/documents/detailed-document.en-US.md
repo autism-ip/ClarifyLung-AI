@@ -1,6 +1,6 @@
 ---
-title: "Chrome插件开发入门指南--english"
-description: "学习如何开发你的第一个Chrome插件-english"
+title: "ClarifyLung AI Detailed Documents--english"
+description: "Learn the details about ClarifyLung AI-english"
 date: "2024-03-15"
 author: "张三1"
 readTime: "10分钟阅读"
