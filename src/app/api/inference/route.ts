@@ -143,6 +143,12 @@ export async function POST(request: NextRequest) {
           prob_normal: normalizedResult.probabilities.normal,
           prob_benign: normalizedResult.probabilities.benign,
           prob_malignant: normalizedResult.probabilities.malignant,
+          gradcam_url: normalizedResult.gradcam_url,
+          visualization_meta: {
+            gradcam_url: normalizedResult.gradcam_url,
+            attention_url: normalizedResult.attention_url,
+            processing_time_ms: processingTime,
+          },
           gradcam_image: normalizedResult.gradcam_url,
           attention_image: normalizedResult.attention_url,
           processing_time: processingTime,
