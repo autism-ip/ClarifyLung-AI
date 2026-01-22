@@ -27,8 +27,8 @@ export function MobileNav({ lang, dict }: MobileNavProps) {
           <Link href={`/${lang}/doc`} className="text-sm font-medium">
             {dict.nav.docs}
           </Link>
-          <Link href={`/${lang}/pricing`} className="text-sm font-medium">
-            {dict.nav.pricing}
+          <Link href={`/${lang}/demo`} className="text-sm font-medium">
+            {dict.nav.demo}
           </Link>
         </div>
       </SheetContent>

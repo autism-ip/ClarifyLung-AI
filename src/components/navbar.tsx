@@ -33,8 +33,8 @@ export default async function Navbar({
               <Link href={`/${lang}/doc`} className="text-sm font-medium transition-colors hover:text-primary">
                 {dict.nav.docs}
               </Link>
-              <Link href={`/${lang}/pricing`} className="text-sm font-medium transition-colors hover:text-primary">
-                {dict.nav.pricing}
+              <Link href={`/${lang}/demo`} className="text-sm font-medium transition-colors hover:text-primary">
+                {dict.nav.demo}
               </Link>
             </div>
           </div>

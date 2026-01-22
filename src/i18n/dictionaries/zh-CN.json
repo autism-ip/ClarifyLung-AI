@@ -1,7 +1,7 @@
 {
   "nav": {
     "features": "功能",
-    "pricing": "价格",
+    "demo": "演示",
     "docs": "文档",
     "signin": "登录",
     "signout": "退出登录",
@@ -27,7 +27,7 @@
     "copyright": "© 2025 ClarifyLung AI. 保留所有权利.",
     "links": {
       "features": "功能",
-      "pricing": "价格",
+      "demo": "演示",
       "changelog": "更新日志",
       "roadmap": "路线图",
       "docs": "文档",
@@ -70,7 +70,7 @@
     },
     "explainable_ai": {
       "title": "多维度可解释性分析",
-      "description": "利用 Grad-CAM++ 和注意力图可视化技术，将 AI 关注点与医生诊断逻辑对齐，解决“黑箱”问题"
+      "description": "利用 Grad-CAM++ 和注意力图可视化技术，将 AI 关注点与医生诊断逻辑对齐，解决「黑箱」问题"
     }
   },
   "faq": {
@@ -171,6 +171,7 @@
     "title": "个人中心",
     "tabs": {
       "profile": "基本信息",
+      "history": "检测历史",
       "subscription": "订阅信息", 
       "settings": "账号设置"
     },
@@ -183,57 +184,76 @@
     "proPlan": "专业版",
     "expireDate": "到期时间",
     "settings": "账号设置",
-    "settingsComingSoon": "更多设置选项开发中..."
+    "settingsComingSoon": "更多设置选项开发中...",
+    "history": {
+      "title": "检测历史记录",
+      "description": "查看您过去的肺癌检测结果",
+      "empty": "暂无检测记录",
+      "tryDemo": "立即体验",
+      "detailTitle": "检测详情",
+      "originalImage": "原始图像",
+      "processingTime": "处理耗时",
+      "confirmDelete": "确定要删除这条记录吗？",
+      "viewDetail": "查看详情",
+      "delete": "删除",
+      "prev": "上一页",
+      "next": "下一页",
+      "labels": {
+        "normal": "正常",
+        "benign": "良性",
+        "malignant": "恶性"
+      }
+    }
   },
-  "pricing": {
-    "title": "简单透明的价格方案",
-    "description": "选择最适合您的方案，随时可以升级或降级",
-    "plans": {
-      "free": {
-        "name": "免费版",
-        "price": "¥0",
-        "description": "适合个人用户使用",
-        "features": [
-          "最多管理50个标签页",
-          "基础标签分组功能",
-          "快速书签功能",
-          "基础数据统计"
-        ]
-      },
-      "pro": {
-        "name": "专业版", 
-        "price": "¥29",
-        "description": "适合专业用户使用",
-        "features": [
-          "无限标签页管理",
-          "高级标签分组功能",
-          "云端同步功能",
-          "详细数据分析",
-          "优先技术支持",
-          "自定义主题"
-        ]
-      },
-      "team": {
-        "name": "团队版",
-        "price": "¥99",
-        "description": "适合团队协作使用", 
-        "features": [
-          "所有专业版功能",
-          "团队协作功能",
-          "共享书签管理",
-          "团队数据分析",
-          "专属客户经理",
-          "API访问权限"
-        ]
+  "demo": {
+    "badge": "AI 辅助诊断",
+    "title": "肺癌 X 光智能检测演示",
+    "description": "上传肺部 X 光图像，体验 CNN-Transformer 混合模型的智能诊断能力",
+    "upload": {
+      "title": "上传图像",
+      "description": "支持 JPG、PNG 格式，最大 10MB",
+      "dragDrop": "拖拽图像到此处，或点击选择文件",
+      "formats": "支持 JPG, PNG, JPEG 格式",
+      "analyze": "开始分析",
+      "analyzing": "分析中...",
+      "reset": "重新选择"
+    },
+    "result": {
+      "title": "检测结果",
+      "description": "AI 模型分析结果及可解释性可视化",
+      "classification": "诊断分类",
+      "confidence": "置信度分布",
+      "visualization": "可视化分析",
+      "placeholder": "上传图像后将在此显示分析结果",
+      "processingTime": "处理耗时",
+      "labels": {
+        "normal": "正常",
+        "benign": "良性",
+        "malignant": "恶性"
       }
     },
-    "cta": {
-      "free": "免费开始",
-      "paid": "立即购买"
+    "instructions": {
+      "title": "使用说明",
+      "steps": [
+        {
+          "title": "上传图像",
+          "description": "选择或拖拽一张清晰的肺部 X 光图像"
+        },
+        {
+          "title": "AI 分析",
+          "description": "模型将自动进行特征提取和分类推理"
+        },
+        {
+          "title": "查看结果",
+          "description": "获取分类结果、置信度及热力图可视化"
+        }
+      ]
     },
-    "footer": {
-      "refund": "所有方案均支持14天无理由退款，如有问题请",
-      "contact": "联系我们"
+    "errors": {
+      "invalidFile": "请选择有效的图像文件",
+      "fileTooLarge": "文件大小不能超过 10MB",
+      "inferenceError": "分析过程中发生错误，请稍后重试",
+      "rateLimited": "请求过于频繁，请 {seconds} 秒后重试"
     }
   }
 }

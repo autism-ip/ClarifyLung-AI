@@ -1,7 +1,7 @@
 {
   "nav": {
     "features": "Features",
-    "pricing": "Pricing",
+    "demo": "Demo",
     "docs": "Docs",
     "signin": "Sign in",
     "download": "Download",
@@ -27,7 +27,7 @@
     "copyright": "© 2025 ClarifyLung AI. All rights reserved.",
     "links": {
       "features": "Features",
-      "pricing": "Pricing",
+      "demo": "Demo",
       "changelog": "Changelog",
       "roadmap": "Roadmap",
       "docs": "Docs",
@@ -89,23 +89,28 @@
         },
         {
           "question": "What are the expected outcomes of this project?",
-          "answer": "The expected outcomes include one scientific research paper and a comprehensive summary report containing experimental results and interpretability analysis.The system aims to assist clinical doctors by reducing missed diagnosis rates and optimizing medical efficiency."}
+          "answer": "The expected outcomes include one scientific research paper and a comprehensive summary report containing experimental results and interpretability analysis.The system aims to assist clinical doctors by reducing missed diagnosis rates and optimizing medical efficiency."
+        }
       ],
       "features": [
         {
           "question": "How does the hybrid model architecture work?",
-          "answer": "The system utilizes a \"dual-stream architecture\": a CNN stream (based on ResNet-50) extracts local multi-scale features, while a parallel Transformer stream captures global context and long-range dependencies. These streams interact dynamically through a bidirectional cross-attention mechanism to fuse features before classification." },
+          "answer": "The system utilizes a \"dual-stream architecture\": a CNN stream (based on ResNet-50) extracts local multi-scale features, while a parallel Transformer stream captures global context and long-range dependencies. These streams interact dynamically through a bidirectional cross-attention mechanism to fuse features before classification."
+        },
         {
           "question": "Is the system's decision-making process interpretable?",
-          "answer": "Yes, the project integrates Explainable AI (XAI) techniques. It uses Grad-CAM++ to visualize the CNN stream's focus on local lesions and attention maps to show the Transformer's global context focus. This aligns the model's \"focus points\" with clinical diagnostic logic to solve the \"black box\" problem." }
+          "answer": "Yes, the project integrates Explainable AI (XAI) techniques. It uses Grad-CAM++ to visualize the CNN stream's focus on local lesions and attention maps to show the Transformer's global context focus. This aligns the model's \"focus points\" with clinical diagnostic logic to solve the \"black box\" problem."
+        }
       ],
       "technical": [
         {
           "question": "What datasets and data processing methods are used?",
-          "answer": "The project uses Kaggle public datasets (IQ-OTH/NCCD, LungCancer4Types, etc.) containing normal, benign, and malignant images. Data processing includes resizing, normalization, and augmentation strategies like random flips and rotation, with a 70% training, 15% validation, and 15% testing split."   },
+          "answer": "The project uses Kaggle public datasets (IQ-OTH/NCCD, LungCancer4Types, etc.) containing normal, benign, and malignant images. Data processing includes resizing, normalization, and augmentation strategies like random flips and rotation, with a 70% training, 15% validation, and 15% testing split."
+        },
         {
           "question": "What is the technical implementation environment?",
-          "answer": "The model is implemented using Python and deep learning frameworks, utilizing the Adam optimizer and a weighted cross-entropy loss function.The training process involves five-fold cross-validation to ensure generalization and support GPU acceleration for computation."  }
+          "answer": "The model is implemented using Python and deep learning frameworks, utilizing the Adam optimizer and a weighted cross-entropy loss function.The training process involves five-fold cross-validation to ensure generalization and support GPU acceleration for computation."
+        }
       ]
     }
   },
@@ -166,6 +171,7 @@
     "title": "Profile",
     "tabs": {
       "profile": "Profile",
+      "history": "History",
       "subscription": "Subscription",
       "settings": "Settings"
     },
@@ -178,57 +184,76 @@
     "proPlan": "Pro Plan",
     "expireDate": "Expire Date",
     "settings": "Settings",
-    "settingsComingSoon": "More settings coming soon..."
+    "settingsComingSoon": "More settings coming soon...",
+    "history": {
+      "title": "Detection History",
+      "description": "View your past lung cancer detection results",
+      "empty": "No detection history yet",
+      "tryDemo": "Try Demo",
+      "detailTitle": "Detection Details",
+      "originalImage": "Original Image",
+      "processingTime": "Processing Time",
+      "confirmDelete": "Are you sure you want to delete this record?",
+      "viewDetail": "View Detail",
+      "delete": "Delete",
+      "prev": "Prev",
+      "next": "Next",
+      "labels": {
+        "normal": "Normal",
+        "benign": "Benign",
+        "malignant": "Malignant"
+      }
+    }
   },
-  "pricing": {
-    "title": "Simple, Transparent Pricing",
-    "description": "Choose the plan that's right for you, upgrade or downgrade anytime",
-    "plans": {
-      "free": {
-        "name": "Free",
-        "price": "$0",
-        "description": "Perfect for individual users",
-        "features": [
-          "Manage up to 50 lung cancer detections",
-          "Basic lung cancer detection grouping",
-          "Quick bookmarking",
-          "Basic analytics"
-        ]
-      },
-      "pro": {
-        "name": "Pro",
-        "price": "$9",
-        "description": "Great for power users",
-        "features": [
-          "Unlimited lung cancer detection management",
-          "Advanced lung cancer detection grouping",
-          "Cloud sync",
-          "Detailed analytics",
-          "Priority support",
-          "Custom lung cancer detection themes"
-        ]
-      },
-      "team": {
-        "name": "Team",
-        "price": "$29",
-        "description": "Best for team collaboration",
-        "features": [
-          "All Pro features",
-          "Team collaboration",
-          "Shared bookmarks",
-          "Team analytics",
-          "Dedicated manager",
-          "API access"
-        ]
+  "demo": {
+    "badge": "AI-Powered Diagnosis",
+    "title": "Lung Cancer X-Ray Detection Demo",
+    "description": "Upload a lung X-ray image to experience the intelligent diagnosis capability of CNN-Transformer hybrid model",
+    "upload": {
+      "title": "Upload Image",
+      "description": "Supports JPG, PNG formats, max 10MB",
+      "dragDrop": "Drag and drop an image here, or click to select",
+      "formats": "Supports JPG, PNG, JPEG formats",
+      "analyze": "Start Analysis",
+      "analyzing": "Analyzing...",
+      "reset": "Reset"
+    },
+    "result": {
+      "title": "Detection Results",
+      "description": "AI model analysis results and explainability visualization",
+      "classification": "Classification",
+      "confidence": "Confidence Distribution",
+      "visualization": "Visual Analysis",
+      "placeholder": "Analysis results will be displayed here after uploading an image",
+      "processingTime": "Processing Time",
+      "labels": {
+        "normal": "Normal",
+        "benign": "Benign",
+        "malignant": "Malignant"
       }
     },
-    "cta": {
-      "free": "Start Free",
-      "paid": "Get Started"
+    "instructions": {
+      "title": "Instructions",
+      "steps": [
+        {
+          "title": "Upload Image",
+          "description": "Select or drag a clear lung X-ray image"
+        },
+        {
+          "title": "AI Analysis",
+          "description": "The model will automatically extract features and perform classification"
+        },
+        {
+          "title": "View Results",
+          "description": "Get classification results, confidence scores and heatmap visualization"
+        }
+      ]
     },
-    "footer": {
-      "refund": "All plans come with a 14-day money-back guarantee. If you have any questions,",
-      "contact": "contact us"
+    "errors": {
+      "invalidFile": "Please select a valid image file",
+      "fileTooLarge": "File size must be less than 10MB",
+      "inferenceError": "An error occurred during analysis, please try again",
+      "rateLimited": "Rate limit exceeded. Please try again in {seconds} seconds."
     }
   }
 }
