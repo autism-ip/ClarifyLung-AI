@@ -28,7 +28,6 @@ export default function DemoPage({
   params: { lang: Locale }
 }) {
   const [dict, setDict] = useState<any>(null)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState(false)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
@@ -51,7 +50,6 @@ export default function DemoPage({
       router.push(`/${lang}/signin`)
       return
     }
-    setIsLoggedIn(true)
     setLoading(false)
   }, [lang, router])
 
