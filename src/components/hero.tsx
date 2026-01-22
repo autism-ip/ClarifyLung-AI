@@ -24,7 +24,9 @@ export default async function Hero({
             <Button size="lg" asChild>
               <Link href={`/${lang}/doc`}>{dict.home.hero.learnMore}</Link>
             </Button>
-            <Button size="lg" variant="outline">{dict.home.hero.watchDemo}</Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link href={`/${lang}/demo`}>{dict.home.hero.watchDemo}</Link>
+            </Button>
           </div>
         </div>
       </div>
