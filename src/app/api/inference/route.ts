@@ -59,6 +59,18 @@ export async function POST(request: NextRequest) {
     const inferenceFormData = new FormData()
     inferenceFormData.append('image', imageFile)
     
+    const resolveVisualizationUrl = (rawUrl: string | null) => {
+      if (!rawUrl) return null
+      if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')) return rawUrl
+      if (!rawUrl.startsWith('/')) return rawUrl
+      try {
+        const origin = new URL(INFERENCE_API_URL).origin
+        return `${origin}${rawUrl}`
+      } catch {
+        return rawUrl
+      }
+    }
+
     let normalizedResult: {
       classification: string
       confidence: number
@@ -96,8 +108,8 @@ export async function POST(request: NextRequest) {
           benign: result.probabilities?.benign || result.prob_benign || 0,
           malignant: result.probabilities?.malignant || result.prob_malignant || 0,
         },
-        gradcam_url: result.gradcam_url || result.gradcam || null,
-        attention_url: result.attention_url || result.attention || null,
+        gradcam_url: resolveVisualizationUrl(result.gradcam_url || result.gradcam || null),
+        attention_url: resolveVisualizationUrl(result.attention_url || result.attention || null),
       }
     } catch (inferenceError) {
       console.warn('Inference service unavailable, using mock data:', inferenceError)
