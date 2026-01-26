@@ -1,13 +1,12 @@
 'use client'
 
-import { useEffect, useState, useCallback } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useCallback, useMemo } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Upload, Loader2, AlertCircle, CheckCircle2, XCircle, ImageIcon, Zap, Shield, Clock } from "lucide-react"
 import type { Locale } from "@/i18n/config"
-import { getDictionary } from "@/i18n/get-dictionary"
 import { Icons } from "@/components/icons"
+import { useDictionary, useAuth, useFilePreview } from '@/hooks'
 
 interface InferenceResult {
   classification: string
@@ -22,62 +21,55 @@ interface InferenceResult {
   processingTime?: number
 }
 
+interface ClassificationStyle {
+  color: string
+  bg: string
+  border: string
+  icon: React.ComponentType<{ className?: string }>
+}
+
 export default function DemoPage({
   params: { lang }
 }: {
   params: { lang: Locale }
 }) {
-  const [dict, setDict] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
-  const [uploading, setUploading] = useState(false)
-  const [selectedImage, setSelectedImage] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  // 使用自定义 hooks
+  const { dictionary: dict, loading: dictLoading } = useDictionary(lang)
+  const { isAuthenticated, isLoading: authLoading } = useAuth({ lang })
+  const {
+    file: selectedImage,
+    previewUrl,
+    error: fileError,
+    isValid,
+    selectFile,
+    clearFile
+  } = useFilePreview({
+    maxSize: 10 * 1024 * 1024,
+    acceptedTypes: ['image/jpeg', 'image/png', 'image/jpg']
+  })
+
   const [result, setResult] = useState<InferenceResult | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const [uploadError, setUploadError] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
   const [dragActive, setDragActive] = useState(false)
-  const router = useRouter()
 
-  // 检查登录状态 & 加载字典
-  useEffect(() => {
-    getDictionary(lang).then(setDict)
-    
-    const userEmail = decodeURIComponent(document.cookie
-      .split('; ')
-      .find(row => row.startsWith('userEmail='))
-      ?.split('=')[1] || '')
-    
-    if (!userEmail) {
-      router.push(`/${lang}/signin`)
-      return
-    }
-    setLoading(false)
-  }, [lang, router])
+  // Loading state combines auth and dictionary loading
+  const loading = dictLoading || authLoading
 
-  // 处理文件选择
-  const handleFileSelect = useCallback((file: File) => {
-    if (!file.type.startsWith('image/')) {
-      setError(dict?.demo?.errors?.invalidFile || 'Please select an image file')
-      return
-    }
-    
-    if (file.size > 10 * 1024 * 1024) {
-      setError(dict?.demo?.errors?.fileTooLarge || 'File size must be less than 10MB')
-      return
-    }
-
-    setSelectedImage(file)
-    setPreviewUrl(URL.createObjectURL(file))
+  // 重置状态
+  const handleReset = useCallback(() => {
+    clearFile()
     setResult(null)
-    setError(null)
-  }, [dict])
+    setUploadError(null)
+  }, [clearFile])
 
   // 拖拽处理
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    if (e.type === "dragenter" || e.type === "dragover") {
+    if (e.type === 'dragenter' || e.type === 'dragover') {
       setDragActive(true)
-    } else if (e.type === "dragleave") {
+    } else if (e.type === 'dragleave') {
       setDragActive(false)
     }
   }, [])
@@ -86,18 +78,25 @@ export default function DemoPage({
     e.preventDefault()
     e.stopPropagation()
     setDragActive(false)
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFileSelect(e.dataTransfer.files[0])
+      selectFile(e.dataTransfer.files[0])
     }
-  }, [handleFileSelect])
+  }, [selectFile])
+
+  const handleFileInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      selectFile(file)
+    }
+  }, [selectFile])
 
   // 提交推理请求
-  const handleSubmit = async () => {
-    if (!selectedImage) return
+  const handleSubmit = useCallback(async () => {
+    if (!selectedImage || !dict) return
 
     setUploading(true)
-    setError(null)
+    setUploadError(null)
 
     try {
       const formData = new FormData()
@@ -110,8 +109,9 @@ export default function DemoPage({
 
       if (response.status === 429) {
         const data = await response.json()
-        setError(dict?.demo?.errors?.rateLimited?.replace('{seconds}', data.retryAfter) || 
-          `Rate limit exceeded. Please try again in ${data.retryAfter} seconds.`)
+        const errorMessage = dict.demo?.errors?.rateLimited?.replace('{seconds}', String(data.retryAfter))
+          || `Rate limit exceeded. Please try again in ${data.retryAfter} seconds.`
+        setUploadError(errorMessage)
         return
       }
 
@@ -122,24 +122,18 @@ export default function DemoPage({
       const data = await response.json()
       setResult(data)
     } catch (err) {
-      setError(dict?.demo?.errors?.inferenceError || 'An error occurred during analysis')
+      const errorMessage = dict.demo?.errors?.inferenceError || 'An error occurred during analysis'
+      setUploadError(errorMessage)
       console.error('Inference error:', err)
     } finally {
       setUploading(false)
     }
-  }
+  }, [selectedImage, dict])
 
-  // 重置状态
-  const handleReset = () => {
-    setSelectedImage(null)
-    setPreviewUrl(null)
-    setResult(null)
-    setError(null)
-  }
-
-  // 获取分类对应的样式和图标
-  const getClassificationStyle = (classification: string) => {
-    switch (classification.toLowerCase()) {
+  // 获取分类对应的样式和图标 - 使用 useMemo 优化
+  const getClassificationStyle = useCallback((classification: string): ClassificationStyle => {
+    const normalized = classification.toLowerCase()
+    switch (normalized) {
       case 'normal':
         return { color: 'text-emerald-500', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', icon: CheckCircle2 }
       case 'benign':
@@ -149,14 +143,35 @@ export default function DemoPage({
       default:
         return { color: 'text-gray-500', bg: 'bg-gray-500/10', border: 'border-gray-500/20', icon: AlertCircle }
     }
-  }
+  }, [])
 
+  // 合并错误状态
+  const error = fileError || uploadError
+
+  // 获取步骤列表（使用 useMemo 避免重复创建）
+  const instructions = useMemo(() => {
+    if (!dict?.demo?.instructions?.steps) {
+      return [
+        { title: 'Upload Image', description: 'Select or drag a clear lung X-ray image' },
+        { title: 'AI Analysis', description: 'The model will automatically extract features and perform classification' },
+        { title: 'View Results', description: 'Get classification results, confidence scores and heatmap visualization' },
+      ]
+    }
+    return dict.demo.instructions.steps
+  }, [dict])
+
+  // 显示加载状态
   if (loading || !dict) {
     return (
       <div className="container py-12 flex justify-center items-center min-h-[60vh]">
         <Icons.spinner className="h-8 w-8 animate-spin" />
       </div>
     )
+  }
+
+  // 显示未认证状态（重定向时）
+  if (!isAuthenticated && !authLoading) {
+    return null
   }
 
   return (
@@ -202,8 +217,8 @@ export default function DemoPage({
               {/* 上传区域 */}
               <div
                 className={`relative border-2 border-dashed rounded-xl p-8 transition-all duration-300 ${
-                  dragActive 
-                    ? 'border-primary bg-primary/5 scale-[1.02] shadow-lg' 
+                  dragActive
+                    ? 'border-primary bg-primary/5 scale-[1.02] shadow-lg'
                     : 'border-muted-foreground/25 hover:border-primary/50 hover:bg-muted/30'
                 }`}
                 onDragEnter={handleDrag}
@@ -237,11 +252,11 @@ export default function DemoPage({
                     </p>
                   </div>
                 )}
-                
+
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => e.target.files?.[0] && handleFileSelect(e.target.files[0])}
+                  onChange={handleFileInputChange}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 />
               </div>
@@ -258,7 +273,7 @@ export default function DemoPage({
               <div className="flex gap-3 mt-6">
                 <Button
                   onClick={handleSubmit}
-                  disabled={!selectedImage || uploading}
+                  disabled={!isValid || uploading}
                   className="flex-1 h-12 text-base"
                   size="lg"
                 >
@@ -296,49 +311,59 @@ export default function DemoPage({
               {result ? (
                 <div className="space-y-6">
                   {/* 分类结果 */}
-                  <div className={`p-5 rounded-xl border ${getClassificationStyle(result.classification).bg} ${getClassificationStyle(result.classification).border}`}>
-                    <div className="flex items-center gap-4">
-                      {(() => {
-                        const Icon = getClassificationStyle(result.classification).icon
-                        return <Icon className={`h-10 w-10 ${getClassificationStyle(result.classification).color}`} />
-                      })()}
-                      <div>
-                        <p className="text-sm text-muted-foreground">{dict.demo?.result?.classification || 'Classification'}</p>
-                        <p className={`text-3xl font-bold ${getClassificationStyle(result.classification).color}`}>
-                          {dict.demo?.result?.labels?.[result.classification.toLowerCase()] || result.classification}
-                        </p>
+                  {(() => {
+                    const style = getClassificationStyle(result.classification)
+                    const Icon = style.icon
+                    const labels = dict.demo?.result?.labels || {}
+                    return (
+                      <div className={`p-5 rounded-xl border ${style.bg} ${style.border}`}>
+                        <div className="flex items-center gap-4">
+                          <Icon className={`h-10 w-10 ${style.color}`} />
+                          <div>
+                            <p className="text-sm text-muted-foreground">{dict.demo?.result?.classification || 'Classification'}</p>
+                            <p className={`text-3xl font-bold ${style.color}`}>
+                              {labels[result.classification.toLowerCase()] || result.classification}
+                            </p>
+                          </div>
+                        </div>
+                        {result.processingTime && (
+                          <div className="mt-3 pt-3 border-t border-current/10 flex items-center gap-2 text-sm text-muted-foreground">
+                            <Clock className="h-4 w-4" />
+                            {dict.demo?.result?.processingTime || 'Processing Time'}: {result.processingTime}ms
+                          </div>
+                        )}
                       </div>
-                    </div>
-                    {result.processingTime && (
-                      <div className="mt-3 pt-3 border-t border-current/10 flex items-center gap-2 text-sm text-muted-foreground">
-                        <Clock className="h-4 w-4" />
-                        {dict.demo?.result?.processingTime || 'Processing Time'}: {result.processingTime}ms
-                      </div>
-                    )}
-                  </div>
+                    )
+                  })()}
 
                   {/* 置信度 */}
                   <div>
                     <p className="text-sm font-medium text-muted-foreground mb-4">{dict.demo?.result?.confidence || 'Confidence Distribution'}</p>
                     <div className="space-y-4">
-                      {Object.entries(result.probabilities).map(([key, value]) => (
-                        <div key={key} className="space-y-2">
-                          <div className="flex justify-between text-sm">
-                            <span className="font-medium">{dict.demo?.result?.labels?.[key] || key}</span>
-                            <span className="font-bold">{(value * 100).toFixed(1)}%</span>
+                      {Object.entries(result.probabilities).map(([key, value]) => {
+                        const barColor = key === 'normal'
+                          ? 'bg-gradient-to-r from-emerald-400 to-emerald-500'
+                          : key === 'benign'
+                            ? 'bg-gradient-to-r from-amber-400 to-amber-500'
+                            : 'bg-gradient-to-r from-rose-400 to-rose-500'
+
+                        return (
+                          <div key={key} className="space-y-2">
+                            <div className="flex justify-between text-sm">
+                              <span className="font-medium">
+                                {dict.demo?.result?.labels?.[key] || key}
+                              </span>
+                              <span className="font-bold">{(value * 100).toFixed(1)}%</span>
+                            </div>
+                            <div className="h-3 rounded-full bg-muted overflow-hidden shadow-inner">
+                              <div
+                                className={`h-full rounded-full transition-all duration-700 ease-out ${barColor}`}
+                                style={{ width: `${value * 100}%` }}
+                              />
+                            </div>
                           </div>
-                          <div className="h-3 rounded-full bg-muted overflow-hidden shadow-inner">
-                            <div
-                              className={`h-full rounded-full transition-all duration-700 ease-out ${
-                                key === 'normal' ? 'bg-gradient-to-r from-emerald-400 to-emerald-500' :
-                                key === 'benign' ? 'bg-gradient-to-r from-amber-400 to-amber-500' : 
-                                'bg-gradient-to-r from-rose-400 to-rose-500'
-                              }`}
-                              style={{ width: `${value * 100}%` }}
-                            />
-                          </div>
-                        </div>
-                      ))}
+                        )
+                      })}
                     </div>
                   </div>
 
@@ -391,11 +416,7 @@ export default function DemoPage({
           </CardHeader>
           <CardContent>
             <div className="grid gap-6 md:grid-cols-3">
-              {(dict.demo?.instructions?.steps || [
-                { title: 'Upload Image', description: 'Select or drag a clear lung X-ray image' },
-                { title: 'AI Analysis', description: 'The model will automatically extract features and perform classification' },
-                { title: 'View Results', description: 'Get classification results, confidence scores and heatmap visualization' },
-              ]).map((step: any, index: number) => (
+              {instructions.map((step, index) => (
                 <div key={index} className="flex gap-4 p-4 rounded-lg bg-muted/30">
                   <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-lg font-bold shadow-lg">
                     {index + 1}

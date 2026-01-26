@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash:*)",
+      "Bash(curl:*)",
+      "Bash(npx next build --debug)",
+      "Bash(npx next build)",
+      "Bash(git checkout:*)",
+      "Bash(node:*)",
+      "Bash(npx tsc:*)"
+    ]
+  }
+}
