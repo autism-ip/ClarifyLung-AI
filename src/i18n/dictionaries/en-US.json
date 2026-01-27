@@ -254,6 +254,11 @@
       "fileTooLarge": "File size must be less than 10MB",
       "inferenceError": "An error occurred during analysis, please try again",
       "rateLimited": "Rate limit exceeded. Please try again in {seconds} seconds."
+    },
+    "unauthorized": {
+      "title": "Login Required",
+      "description": "Please sign in to access the AI diagnosis demo",
+      "signin": "Sign In"
     }
   }
 }

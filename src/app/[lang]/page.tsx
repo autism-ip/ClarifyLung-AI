@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { Button } from "@/components/ui/button"
 import { Chrome } from "lucide-react"
 import Features from "@/components/features"

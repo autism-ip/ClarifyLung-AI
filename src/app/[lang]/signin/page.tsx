@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { Suspense } from "react"
 import { SignInContent } from "@/components/auth/signin-content"
 import { Icons } from "@/components/icons"

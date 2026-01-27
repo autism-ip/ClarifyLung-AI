@@ -28,14 +28,17 @@ export function useFilePreview(options: UseFilePreviewOptions = {}): UseFilePrev
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
 
+  // 检查是否在浏览器环境中
+  const isBrowser = typeof window !== 'undefined'
+
   // Clean up object URL when component unmounts or file changes
   useEffect(() => {
     return () => {
-      if (previewUrl) {
+      if (isBrowser && previewUrl) {
         URL.revokeObjectURL(previewUrl)
       }
     }
-  }, [previewUrl])
+  }, [previewUrl, isBrowser])
 
   const validateFile = useCallback((file: File): string | null => {
     if (!acceptedTypes.includes(file.type)) {
@@ -49,7 +52,7 @@ export function useFilePreview(options: UseFilePreviewOptions = {}): UseFilePrev
 
   const selectFile = useCallback((newFile: File) => {
     // Revoke previous preview URL
-    if (previewUrl) {
+    if (isBrowser && previewUrl) {
       URL.revokeObjectURL(previewUrl)
     }
 
@@ -63,17 +66,19 @@ export function useFilePreview(options: UseFilePreviewOptions = {}): UseFilePrev
 
     setError(null)
     setFile(newFile)
-    setPreviewUrl(URL.createObjectURL(newFile))
-  }, [previewUrl, validateFile])
+    if (isBrowser) {
+      setPreviewUrl(URL.createObjectURL(newFile))
+    }
+  }, [previewUrl, validateFile, isBrowser])
 
   const clearFile = useCallback(() => {
-    if (previewUrl) {
+    if (isBrowser && previewUrl) {
       URL.revokeObjectURL(previewUrl)
     }
     setFile(null)
     setPreviewUrl(null)
     setError(null)
-  }, [previewUrl])
+  }, [previewUrl, isBrowser])
 
   const reset = useCallback(() => {
     clearFile()

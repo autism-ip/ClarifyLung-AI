@@ -1,12 +1,40 @@
 'use client'
 
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Upload, Loader2, AlertCircle, CheckCircle2, XCircle, ImageIcon, Zap, Shield, Clock } from "lucide-react"
+import { Progress } from "@/components/ui/progress"
+import { Upload, Loader2, AlertCircle, CheckCircle2, XCircle, ImageIcon, Zap, Shield, Clock, FileUp, Lock } from "lucide-react"
 import type { Locale } from "@/i18n/config"
 import { Icons } from "@/components/icons"
-import { useDictionary, useAuth, useFilePreview } from '@/hooks'
+import { useDictionary, useFilePreview } from '@/hooks'
+import Link from 'next/link'
+
+// 延迟加载 useAuth 以避免预渲染问题
+function useAuthHook() {
+  const [authState, setAuthState] = useState({
+    isAuthenticated: false,
+    isLoading: true
+  })
+
+  useEffect(() => {
+    // 在客户端检查认证状态
+    if (typeof window !== 'undefined') {
+      const userEmail = decodeURIComponent(
+        document.cookie
+          .split('; ')
+          .find(row => row.startsWith('userEmail='))
+          ?.split('=')[1] || ''
+      )
+      setAuthState({
+        isAuthenticated: !!userEmail,
+        isLoading: false
+      })
+    }
+  }, [])
+
+  return authState
+}
 
 interface InferenceResult {
   classification: string
@@ -25,17 +53,17 @@ interface ClassificationStyle {
   color: string
   bg: string
   border: string
+  badge: string
   icon: React.ComponentType<{ className?: string }>
 }
 
 export default function DemoPage({
-  params: { lang }
+  params
 }: {
   params: { lang: Locale }
 }) {
-  // 使用自定义 hooks
-  const { dictionary: dict, loading: dictLoading } = useDictionary(lang)
-  const { isAuthenticated, isLoading: authLoading } = useAuth({ lang })
+  const { dictionary: dict, loading: dictLoading } = useDictionary(params.lang)
+  const { isAuthenticated, isLoading: authLoading } = useAuthHook()
   const {
     file: selectedImage,
     previewUrl,
@@ -52,18 +80,17 @@ export default function DemoPage({
   const [uploadError, setUploadError] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
   const [dragActive, setDragActive] = useState(false)
+  const [analyzingProgress, setAnalyzingProgress] = useState(0)
 
-  // Loading state combines auth and dictionary loading
   const loading = dictLoading || authLoading
 
-  // 重置状态
   const handleReset = useCallback(() => {
     clearFile()
     setResult(null)
     setUploadError(null)
+    setAnalyzingProgress(0)
   }, [clearFile])
 
-  // 拖拽处理
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault()
     e.stopPropagation()
@@ -91,12 +118,17 @@ export default function DemoPage({
     }
   }, [selectFile])
 
-  // 提交推理请求
   const handleSubmit = useCallback(async () => {
     if (!selectedImage || !dict) return
 
     setUploading(true)
     setUploadError(null)
+    setAnalyzingProgress(0)
+
+    // 模拟进度
+    const progressInterval = setInterval(() => {
+      setAnalyzingProgress(prev => Math.min(prev + Math.random() * 15, 85))
+    }, 200)
 
     try {
       const formData = new FormData()
@@ -112,6 +144,7 @@ export default function DemoPage({
         const errorMessage = dict.demo?.errors?.rateLimited?.replace('{seconds}', String(data.retryAfter))
           || `Rate limit exceeded. Please try again in ${data.retryAfter} seconds.`
         setUploadError(errorMessage)
+        clearInterval(progressInterval)
         return
       }
 
@@ -120,8 +153,16 @@ export default function DemoPage({
       }
 
       const data = await response.json()
-      setResult(data)
+
+      // 完成进度
+      clearInterval(progressInterval)
+      setAnalyzingProgress(100)
+
+      setTimeout(() => {
+        setResult(data)
+      }, 300)
     } catch (err) {
+      clearInterval(progressInterval)
       const errorMessage = dict.demo?.errors?.inferenceError || 'An error occurred during analysis'
       setUploadError(errorMessage)
       console.error('Inference error:', err)
@@ -130,25 +171,46 @@ export default function DemoPage({
     }
   }, [selectedImage, dict])
 
-  // 获取分类对应的样式和图标 - 使用 useMemo 优化
   const getClassificationStyle = useCallback((classification: string): ClassificationStyle => {
     const normalized = classification.toLowerCase()
     switch (normalized) {
       case 'normal':
-        return { color: 'text-emerald-500', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', icon: CheckCircle2 }
+        return {
+          color: 'text-emerald-500',
+          bg: 'bg-emerald-500/10 border-emerald-500/20',
+          border: 'border-emerald-500/30',
+          badge: 'bg-emerald-500 text-white',
+          icon: CheckCircle2
+        }
       case 'benign':
-        return { color: 'text-amber-500', bg: 'bg-amber-500/10', border: 'border-amber-500/20', icon: AlertCircle }
+        return {
+          color: 'text-amber-500',
+          bg: 'bg-amber-500/10 border-amber-500/20',
+          border: 'border-amber-500/30',
+          badge: 'bg-amber-500 text-white',
+          icon: AlertCircle
+        }
       case 'malignant':
-        return { color: 'text-rose-500', bg: 'bg-rose-500/10', border: 'border-rose-500/20', icon: XCircle }
+        return {
+          color: 'text-rose-500',
+          bg: 'bg-rose-500/10 border-rose-500/20',
+          border: 'border-rose-500/30',
+          badge: 'bg-rose-500 text-white',
+          icon: XCircle
+        }
       default:
-        return { color: 'text-gray-500', bg: 'bg-gray-500/10', border: 'border-gray-500/20', icon: AlertCircle }
+        return {
+          color: 'text-gray-500',
+          bg: 'bg-gray-500/10 border-gray-500/20',
+          border: 'border-gray-500/30',
+          badge: 'bg-gray-500 text-white',
+          icon: AlertCircle
+        }
     }
   }, [])
 
-  // 合并错误状态
   const error = fileError || uploadError
 
-  // 获取步骤列表（使用 useMemo 避免重复创建）
   const instructions = useMemo(() => {
     if (!dict?.demo?.instructions?.steps) {
       return [
@@ -160,18 +222,38 @@ export default function DemoPage({
     return dict.demo.instructions.steps
   }, [dict])
 
-  // 显示加载状态
   if (loading || !dict) {
     return (
       <div className="container py-12 flex justify-center items-center min-h-[60vh]">
-        <Icons.spinner className="h-8 w-8 animate-spin" />
+        <div className="flex flex-col items-center gap-4">
+          <Icons.spinner className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
       </div>
     )
   }
 
-  // 显示未认证状态（重定向时）
   if (!isAuthenticated && !authLoading) {
-    return null
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-4">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-muted mb-6">
+            <Lock className="h-10 w-10 text-muted-foreground" />
+          </div>
+          <h2 className="text-2xl font-bold mb-3">
+            {dict.demo?.unauthorized?.title || 'Login Required'}
+          </h2>
+          <p className="text-muted-foreground mb-6">
+            {dict.demo?.unauthorized?.description || 'Please sign in to access the AI diagnosis demo'}
+          </p>
+          <Button asChild size="lg">
+            <Link href={`/${params.lang}/signin`}>
+              {dict.demo?.unauthorized?.signin || 'Sign In'}
+            </Link>
+          </Button>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -179,7 +261,7 @@ export default function DemoPage({
       {/* 背景装饰 */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
       </div>
 
       <div className="container py-12 md:py-16 lg:py-20">
@@ -187,8 +269,8 @@ export default function DemoPage({
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
           <div className="inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-medium bg-primary/5 backdrop-blur-sm">
             <span className="relative flex h-2 w-2 mr-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
             {dict.demo?.badge || 'AI-Powered Diagnosis'}
           </div>
@@ -202,11 +284,13 @@ export default function DemoPage({
 
         <div className="grid gap-8 lg:grid-cols-2 max-w-6xl mx-auto">
           {/* 左侧：上传区域 */}
-          <Card className="relative overflow-hidden border-2">
+          <Card className="relative overflow-hidden border-2 card-hover">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Upload className="h-5 w-5" />
+                <div className="p-1.5 rounded-lg bg-primary/10">
+                  <Upload className="h-5 w-5 text-primary" />
+                </div>
                 {dict.demo?.upload?.title || 'Upload Image'}
               </CardTitle>
               <CardDescription>
@@ -228,23 +312,28 @@ export default function DemoPage({
               >
                 {previewUrl ? (
                   <div className="space-y-4">
-                    <div className="relative aspect-square max-w-sm mx-auto rounded-lg overflow-hidden bg-muted shadow-inner">
+                    <div className="relative aspect-square max-w-sm mx-auto rounded-lg overflow-hidden bg-muted shadow-inner ring-2 ring-primary/10">
                       <img
                         src={previewUrl}
                         alt="Preview"
                         className="w-full h-full object-contain"
                       />
+                      {/* 图片上的状态标签 */}
+                      <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500 text-white text-xs font-medium">
+                        <CheckCircle2 className="h-3.5 w-3.5" />
+                        Ready
+                      </div>
                     </div>
-                    <p className="text-sm text-center text-muted-foreground truncate">
+                    <p className="text-sm text-center text-muted-foreground truncate font-medium">
                       {selectedImage?.name}
                     </p>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center py-8">
-                    <div className="rounded-full bg-muted p-4 mb-4 shadow-inner">
-                      <ImageIcon className="h-8 w-8 text-muted-foreground" />
+                    <div className={`rounded-2xl p-5 mb-4 transition-all duration-300 ${dragActive ? 'bg-primary/15 scale-110' : 'bg-muted'}`}>
+                      <FileUp className={`h-10 w-10 ${dragActive ? 'text-primary' : 'text-muted-foreground'}`} />
                     </div>
-                    <p className="text-sm text-muted-foreground text-center mb-2">
+                    <p className="text-sm text-muted-foreground text-center mb-2 font-medium">
                       {dict.demo?.upload?.dragDrop || 'Drag and drop an image here, or click to select'}
                     </p>
                     <p className="text-xs text-muted-foreground/70">
@@ -263,7 +352,7 @@ export default function DemoPage({
 
               {/* 错误提示 */}
               {error && (
-                <div className="mt-4 p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm flex items-start gap-3">
+                <div className="mt-4 p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm flex items-start gap-3 animate-fade-in-up">
                   <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
                   <span>{error}</span>
                 </div>
@@ -274,7 +363,7 @@ export default function DemoPage({
                 <Button
                   onClick={handleSubmit}
                   disabled={!isValid || uploading}
-                  className="flex-1 h-12 text-base"
+                  className="flex-1 h-12 text-base font-medium"
                   size="lg"
                 >
                   {uploading ? (
@@ -295,21 +384,37 @@ export default function DemoPage({
                   </Button>
                 )}
               </div>
+
+              {/* 分析进度 */}
+              {uploading && (
+                <div className="mt-4 space-y-2 animate-fade-in">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Analyzing image...</span>
+                    <span className="font-medium text-primary">{analyzingProgress.toFixed(0)}%</span>
+                  </div>
+                  <Progress value={analyzingProgress} className="h-2" />
+                </div>
+              )}
             </CardContent>
           </Card>
 
           {/* 右侧：结果展示 */}
-          <Card className="relative overflow-hidden border-2">
+          <Card className="relative overflow-hidden border-2 card-hover">
             <div className="absolute inset-0 bg-gradient-to-bl from-primary/5 via-transparent to-transparent pointer-events-none" />
             <CardHeader>
-              <CardTitle>{dict.demo?.result?.title || 'Detection Results'}</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-primary/10">
+                  <Shield className="h-5 w-5 text-primary" />
+                </div>
+                {dict.demo?.result?.title || 'Detection Results'}
+              </CardTitle>
               <CardDescription>
                 {dict.demo?.result?.description || 'AI model analysis results and explainability visualization'}
               </CardDescription>
             </CardHeader>
             <CardContent>
               {result ? (
-                <div className="space-y-6">
+                <div className="space-y-6 animate-fade-in-up">
                   {/* 分类结果 */}
                   {(() => {
                     const style = getClassificationStyle(result.classification)
@@ -318,16 +423,26 @@ export default function DemoPage({
                     return (
                       <div className={`p-5 rounded-xl border ${style.bg} ${style.border}`}>
                         <div className="flex items-center gap-4">
-                          <Icon className={`h-10 w-10 ${style.color}`} />
-                          <div>
-                            <p className="text-sm text-muted-foreground">{dict.demo?.result?.classification || 'Classification'}</p>
+                          <div className={`p-3 rounded-xl ${style.badge} bg-opacity-15`}>
+                            <Icon className={`h-8 w-8 ${style.color}`} />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm text-muted-foreground font-medium">
+                              {dict.demo?.result?.classification || 'Classification'}
+                            </p>
                             <p className={`text-3xl font-bold ${style.color}`}>
                               {labels[result.classification.toLowerCase()] || result.classification}
                             </p>
                           </div>
+                          <div className="text-right">
+                            <p className="text-xs text-muted-foreground">Confidence</p>
+                            <p className={`text-2xl font-bold ${style.color}`}>
+                              {(result.confidence * 100).toFixed(1)}%
+                            </p>
+                          </div>
                         </div>
                         {result.processingTime && (
-                          <div className="mt-3 pt-3 border-t border-current/10 flex items-center gap-2 text-sm text-muted-foreground">
+                          <div className="mt-4 pt-4 border-t border-current/10 flex items-center gap-2 text-sm text-muted-foreground">
                             <Clock className="h-4 w-4" />
                             {dict.demo?.result?.processingTime || 'Processing Time'}: {result.processingTime}ms
                           </div>
@@ -336,28 +451,30 @@ export default function DemoPage({
                     )
                   })()}
 
-                  {/* 置信度 */}
+                  {/* 置信度分布 */}
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground mb-4">{dict.demo?.result?.confidence || 'Confidence Distribution'}</p>
+                    <p className="text-sm font-medium text-muted-foreground mb-4">
+                      {dict.demo?.result?.confidence || 'Confidence Distribution'}
+                    </p>
                     <div className="space-y-4">
                       {Object.entries(result.probabilities).map(([key, value]) => {
                         const barColor = key === 'normal'
-                          ? 'bg-gradient-to-r from-emerald-400 to-emerald-500'
+                          ? 'from-emerald-400 to-emerald-500'
                           : key === 'benign'
-                            ? 'bg-gradient-to-r from-amber-400 to-amber-500'
-                            : 'bg-gradient-to-r from-rose-400 to-rose-500'
+                            ? 'from-amber-400 to-amber-500'
+                            : 'from-rose-400 to-rose-500'
 
                         return (
                           <div key={key} className="space-y-2">
                             <div className="flex justify-between text-sm">
-                              <span className="font-medium">
+                              <span className="font-medium capitalize">
                                 {dict.demo?.result?.labels?.[key] || key}
                               </span>
                               <span className="font-bold">{(value * 100).toFixed(1)}%</span>
                             </div>
                             <div className="h-3 rounded-full bg-muted overflow-hidden shadow-inner">
                               <div
-                                className={`h-full rounded-full transition-all duration-700 ease-out ${barColor}`}
+                                className={`h-full rounded-full transition-all duration-700 ease-out bg-gradient-to-r ${barColor}`}
                                 style={{ width: `${value * 100}%` }}
                               />
                             </div>
@@ -370,11 +487,13 @@ export default function DemoPage({
                   {/* 可视化结果 */}
                   {(result.gradcam_url || result.attention_url) && (
                     <div>
-                      <p className="text-sm font-medium text-muted-foreground mb-4">{dict.demo?.result?.visualization || 'Visual Analysis'}</p>
+                      <p className="text-sm font-medium text-muted-foreground mb-4">
+                        {dict.demo?.result?.visualization || 'Visual Analysis'}
+                      </p>
                       <div className="grid grid-cols-2 gap-4">
                         {result.gradcam_url && (
                           <div className="space-y-2">
-                            <div className="aspect-square rounded-xl overflow-hidden bg-muted shadow-inner border">
+                            <div className="aspect-square rounded-xl overflow-hidden bg-muted shadow-inner border ring-1 ring-primary/10">
                               <img src={result.gradcam_url} alt="Grad-CAM++" className="w-full h-full object-contain" />
                             </div>
                             <p className="text-xs text-center text-muted-foreground font-medium">Grad-CAM++</p>
@@ -382,7 +501,7 @@ export default function DemoPage({
                         )}
                         {result.attention_url && (
                           <div className="space-y-2">
-                            <div className="aspect-square rounded-xl overflow-hidden bg-muted shadow-inner border">
+                            <div className="aspect-square rounded-xl overflow-hidden bg-muted shadow-inner border ring-1 ring-primary/10">
                               <img src={result.attention_url} alt="Attention Map" className="w-full h-full object-contain" />
                             </div>
                             <p className="text-xs text-center text-muted-foreground font-medium">Attention Map</p>
@@ -393,11 +512,11 @@ export default function DemoPage({
                   )}
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center py-16 text-center">
-                  <div className="rounded-full bg-muted p-6 mb-4 shadow-inner">
+                <div className="flex flex-col items-center justify-center py-16 text-center animate-fade-in">
+                  <div className="rounded-2xl bg-muted p-6 mb-4">
                     <ImageIcon className="h-12 w-12 text-muted-foreground/40" />
                   </div>
-                  <p className="text-muted-foreground">
+                  <p className="text-muted-foreground max-w-sm">
                     {dict.demo?.result?.placeholder || 'Analysis results will be displayed here after uploading an image'}
                   </p>
                 </div>
@@ -407,23 +526,28 @@ export default function DemoPage({
         </div>
 
         {/* 使用说明 */}
-        <Card className="mt-8 max-w-6xl mx-auto">
+        <Card className="mt-8 max-w-6xl mx-auto border-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5" />
+              <div className="p-1.5 rounded-lg bg-primary/10">
+                <Shield className="h-5 w-5 text-primary" />
+              </div>
               {dict.demo?.instructions?.title || 'Instructions'}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid gap-6 md:grid-cols-3">
               {instructions.map((step, index) => (
-                <div key={index} className="flex gap-4 p-4 rounded-lg bg-muted/30">
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-lg font-bold shadow-lg">
+                <div
+                  key={index}
+                  className="flex gap-4 p-4 rounded-xl bg-muted/30 border border-border/50 card-hover"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-primary text-primary-foreground flex items-center justify-center text-lg font-bold shadow-lg">
                     {index + 1}
                   </div>
                   <div>
                     <p className="font-semibold mb-1">{step.title}</p>
-                    <p className="text-sm text-muted-foreground">{step.description}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
                   </div>
                 </div>
               ))}

@@ -10,7 +10,7 @@ interface User {
 
 interface UseAuthOptions {
   redirectTo?: string | null
-  lang: Locale
+  lang?: Locale
 }
 
 interface UseAuthReturn {
@@ -21,11 +21,17 @@ interface UseAuthReturn {
   refreshUser: () => void
 }
 
-export function useAuth(options: UseAuthOptions): UseAuthReturn {
-  const { redirectTo = `/${options.lang}/signin` } = options
+export function useAuth(options: UseAuthOptions = {}): UseAuthReturn {
+  // 确保 options 是有效对象
+  const safeOptions: UseAuthOptions = options || {}
+  const { redirectTo, lang } = safeOptions
+
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
+
+  // 计算默认重定向路径
+  const computedRedirectTo = redirectTo ?? (lang ? `/${lang}/signin` : null)
 
   const getUserFromCookie = useCallback((): User | null => {
     if (typeof document === 'undefined') return null
@@ -52,11 +58,11 @@ export function useAuth(options: UseAuthOptions): UseAuthReturn {
       setUser(null)
       setIsLoading(false)
 
-      if (redirectTo) {
-        router.push(redirectTo)
+      if (computedRedirectTo) {
+        router.push(computedRedirectTo)
       }
     }
-  }, [getUserFromCookie, redirectTo, router])
+  }, [getUserFromCookie, computedRedirectTo, router])
 
   const logout = useCallback(() => {
     if (typeof document !== 'undefined') {
@@ -64,22 +70,34 @@ export function useAuth(options: UseAuthOptions): UseAuthReturn {
     }
     window.dispatchEvent(new Event('loginStateChange'))
     router.refresh()
-    router.push(`/${options.lang}`)
-  }, [options.lang, router])
+    if (lang) {
+      router.push(`/${lang}`)
+    }
+  }, [lang, router])
 
   useEffect(() => {
+    // Skip if lang is not available (during SSR/pre-rendering)
+    if (!lang) {
+      setIsLoading(false)
+      return
+    }
+
     refreshUser()
 
     const handleStorageChange = () => refreshUser()
 
-    window.addEventListener('storage', handleStorageChange)
-    window.addEventListener('loginStateChange', handleStorageChange)
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorageChange)
+      window.addEventListener('loginStateChange', handleStorageChange)
+    }
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange)
-      window.removeEventListener('loginStateChange', handleStorageChange)
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('storage', handleStorageChange)
+        window.removeEventListener('loginStateChange', handleStorageChange)
+      }
     }
-  }, [refreshUser])
+  }, [refreshUser, lang])
 
   return {
     user,

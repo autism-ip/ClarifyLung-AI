@@ -65,6 +65,11 @@ interface Dictionary {
       rateLimited?: string
       inferenceError?: string
     }
+    unauthorized?: {
+      title?: string
+      description?: string
+      signin?: string
+    }
   }
   doc: {
     title: string
@@ -147,6 +152,12 @@ interface Dictionary {
       history: string
       settings: string
     }
+  }
+  notFound?: {
+    title: string
+    description: string
+    goBack: string
+    goHome: string
   }
 }
 

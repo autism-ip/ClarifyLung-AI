@@ -4,7 +4,7 @@ import { checkRateLimit, RATE_LIMITS } from '@/lib/rate-limit'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const userEmail = request.cookies.get('userEmail')?.value
@@ -13,6 +13,7 @@ export async function GET(
     }
 
     const decodedEmail = decodeURIComponent(userEmail)
+    const { id } = await params
 
     // 速率限制检查
     const rateLimitResult = checkRateLimit(`history:${decodedEmail}`, RATE_LIMITS.history)
@@ -26,7 +27,7 @@ export async function GET(
     const { data, error } = await supabase
       .from('inference_history')
       .select('*')
-      .eq('id', params.id)
+      .eq('id', id)
       .eq('user_email', decodedEmail)
       .single()
 

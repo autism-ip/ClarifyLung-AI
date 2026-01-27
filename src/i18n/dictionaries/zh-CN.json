@@ -254,6 +254,11 @@
       "fileTooLarge": "文件大小不能超过 10MB",
       "inferenceError": "分析过程中发生错误，请稍后重试",
       "rateLimited": "请求过于频繁，请 {seconds} 秒后重试"
+    },
+    "unauthorized": {
+      "title": "请先登录",
+      "description": "登录后方可使用 AI 智能诊断功能",
+      "signin": "立即登录"
     }
   }
 }

@@ -1,16 +1,25 @@
 import type { Metadata } from "next";
+import { GeistSans } from "geist/font/sans";
 import { Inter } from "next/font/google";
 import "../globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
-import { locales } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { Toaster } from "react-hot-toast";
 import { BreadcrumbWrapper } from "@/components/breadcrumb-wrapper";
+import { PageTransition } from "@/components/page-transition";
+import { MobileLayout } from "@/components/mobile-layout";
 
-const inter = Inter({ subsets: ["latin"] });
+// 标题字体：Geist Sans - 科技感强
+// 注意：GeistSans 自动注入 class，无需手动配置 variable
+
+// 正文字体：Inter - 清晰易读
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export async function generateMetadata({
   params,
@@ -60,12 +69,18 @@ export async function generateMetadata({
         "max-snippet": -1,
       },
     },
+    icons: {
+      icon: "/images/logo.png",
+      shortcut: "/images/logo.png",
+      apple: "/images/logo.png",
+    },
   };
 }
 
-export async function generateStaticParams() {
-  return locales.map((locale) => ({ lang: locale }));
-}
+// 移除 generateStaticParams 以避免预渲染问题
+// export async function generateStaticParams() {
+//   return locales.map((locale) => ({ lang: locale }));
+// }
 
 export default async function RootLayout({
   children,
@@ -78,7 +93,7 @@ export default async function RootLayout({
 
   return (
     <html lang={lang} suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${GeistSans.className} ${inter.variable} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -88,9 +103,11 @@ export default async function RootLayout({
           <Toaster position="top-center" />
           <div className="relative flex min-h-screen flex-col">
             <Navbar lang={lang} />
-            <main className="flex-1">
-              <BreadcrumbWrapper lang={lang} dict={dict} />
-              {children}
+            <main className="flex-1 pb-16 md:pb-0">
+              <MobileLayout lang={lang} dict={dict as any}>
+                <BreadcrumbWrapper lang={lang} dict={dict} />
+                <PageTransition>{children}</PageTransition>
+              </MobileLayout>
             </main>
             <Footer lang={lang} />
           </div>
