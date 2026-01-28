@@ -4,9 +4,9 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import { SkeletonDemoPage } from "@/components/ui/skeleton"
 import { Upload, Loader2, AlertCircle, CheckCircle2, XCircle, ImageIcon, Zap, Shield, Clock, FileUp, Lock } from "lucide-react"
 import type { Locale } from "@/i18n/config"
-import { Icons } from "@/components/icons"
 import { useDictionary, useFilePreview } from '@/hooks'
 import Link from 'next/link'
 
@@ -176,34 +176,34 @@ export default function DemoPage({
     switch (normalized) {
       case 'normal':
         return {
-          color: 'text-emerald-500',
-          bg: 'bg-emerald-500/10 border-emerald-500/20',
-          border: 'border-emerald-500/30',
-          badge: 'bg-emerald-500 text-white',
+          color: 'text-success',
+          bg: 'bg-success/10 border-success/20',
+          border: 'border-success/30',
+          badge: 'bg-success text-success-foreground',
           icon: CheckCircle2
         }
       case 'benign':
         return {
-          color: 'text-amber-500',
-          bg: 'bg-amber-500/10 border-amber-500/20',
-          border: 'border-amber-500/30',
-          badge: 'bg-amber-500 text-white',
+          color: 'text-warning',
+          bg: 'bg-warning/10 border-warning/20',
+          border: 'border-warning/30',
+          badge: 'bg-warning text-warning-foreground',
           icon: AlertCircle
         }
       case 'malignant':
         return {
-          color: 'text-rose-500',
-          bg: 'bg-rose-500/10 border-rose-500/20',
-          border: 'border-rose-500/30',
-          badge: 'bg-rose-500 text-white',
+          color: 'text-danger',
+          bg: 'bg-danger/10 border-danger/20',
+          border: 'border-danger/30',
+          badge: 'bg-danger text-danger-foreground',
           icon: XCircle
         }
       default:
         return {
-          color: 'text-gray-500',
-          bg: 'bg-gray-500/10 border-gray-500/20',
-          border: 'border-gray-500/30',
-          badge: 'bg-gray-500 text-white',
+          color: 'text-muted-foreground',
+          bg: 'bg-muted/50 border-muted/20',
+          border: 'border-muted/30',
+          badge: 'bg-muted text-muted-foreground',
           icon: AlertCircle
         }
     }
@@ -223,14 +223,7 @@ export default function DemoPage({
   }, [dict])
 
   if (loading || !dict) {
-    return (
-      <div className="container py-12 flex justify-center items-center min-h-[60vh]">
-        <div className="flex flex-col items-center gap-4">
-          <Icons.spinner className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    )
+    return <SkeletonDemoPage />
   }
 
   if (!isAuthenticated && !authLoading) {
@@ -269,8 +262,8 @@ export default function DemoPage({
         <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
           <div className="inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-medium bg-primary/5 backdrop-blur-sm">
             <span className="relative flex h-2 w-2 mr-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
             </span>
             {dict.demo?.badge || 'AI-Powered Diagnosis'}
           </div>
@@ -315,11 +308,11 @@ export default function DemoPage({
                     <div className="relative aspect-square max-w-sm mx-auto rounded-lg overflow-hidden bg-muted shadow-inner ring-2 ring-primary/10">
                       <img
                         src={previewUrl}
-                        alt="Preview"
+                        alt={dict.demo?.imageAlt?.preview || "Uploaded lung X-ray image preview"}
                         className="w-full h-full object-contain"
                       />
                       {/* 图片上的状态标签 */}
-                      <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500 text-white text-xs font-medium">
+                      <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-success text-success-foreground text-xs font-medium">
                         <CheckCircle2 className="h-3.5 w-3.5" />
                         Ready
                       </div>
@@ -494,7 +487,11 @@ export default function DemoPage({
                         {result.gradcam_url && (
                           <div className="space-y-2">
                             <div className="aspect-square rounded-xl overflow-hidden bg-muted shadow-inner border ring-1 ring-primary/10">
-                              <img src={result.gradcam_url} alt="Grad-CAM++" className="w-full h-full object-contain" />
+                              <img
+                                src={result.gradcam_url}
+                                alt={dict.demo?.imageAlt?.gradcam || "Grad-CAM++ visualization showing AI attention regions"}
+                                className="w-full h-full object-contain"
+                              />
                             </div>
                             <p className="text-xs text-center text-muted-foreground font-medium">Grad-CAM++</p>
                           </div>
@@ -502,7 +499,11 @@ export default function DemoPage({
                         {result.attention_url && (
                           <div className="space-y-2">
                             <div className="aspect-square rounded-xl overflow-hidden bg-muted shadow-inner border ring-1 ring-primary/10">
-                              <img src={result.attention_url} alt="Attention Map" className="w-full h-full object-contain" />
+                              <img
+                                src={result.attention_url}
+                                alt={dict.demo?.imageAlt?.attention || "Attention map visualization"}
+                                className="w-full h-full object-contain"
+                              />
                             </div>
                             <p className="text-xs text-center text-muted-foreground font-medium">Attention Map</p>
                           </div>

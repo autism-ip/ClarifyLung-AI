@@ -70,6 +70,11 @@ interface Dictionary {
       description?: string
       signin?: string
     }
+    imageAlt?: {
+      preview?: string
+      gradcam?: string
+      attention?: string
+    }
   }
   doc: {
     title: string

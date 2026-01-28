@@ -7,7 +7,18 @@
       "Bash(npx next build)",
       "Bash(git checkout:*)",
       "Bash(node:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run dev)",
+      "Bash(cd:*)",
+      "Bash(npm run build)",
+      "Bash(timeout 10 npx next:*)",
+      "Bash(npm ls:*)",
+      "Bash(netstat -ano)",
+      "Bash(findstr:*)",
+      "Bash(grep:*)",
+      "Bash(git diff:*)",
+      "Bash(ls:*)"
     ]
   }
 }

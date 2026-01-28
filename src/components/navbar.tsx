@@ -17,11 +17,11 @@ export default async function Navbar({
       <div className="container flex h-14 items-center">
         <div className="mr-4 flex items-center space-x-2">
           <Link href={`/${lang}`} className="flex items-center space-x-2">
-            <Image 
-              src="/images/logo.png" 
-              alt="Logo" 
-              width={48} 
-              height={48} 
+            <Image
+              src="/images/logo.png"
+              alt={dict.common.brand || "ClarifyLung AI Logo"}
+              width={48}
+              height={48}
               className="dark:invert"
             />
             <span className="font-bold">{dict.common.brand}</span>

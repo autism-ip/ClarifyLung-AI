@@ -259,6 +259,11 @@
       "title": "请先登录",
       "description": "登录后方可使用 AI 智能诊断功能",
       "signin": "立即登录"
+    },
+    "imageAlt": {
+      "preview": "上传的肺部 X 光图像预览",
+      "gradcam": "Grad-CAM++ 可视化，显示 AI 关注的诊断区域",
+      "attention": "注意力图可视化，显示模型的全局关注点"
     }
   }
 }

@@ -27,8 +27,12 @@ export default async function Footer({
   }
 
   return (
-    <footer className="relative w-full bg-background/40 backdrop-blur-sm">
-      <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-background/5 to-transparent pointer-events-none" />
+    <footer className="relative w-full bg-background/60 backdrop-blur-md border-t">
+      {/* 深色模式渐变增强 */}
+      <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-transparent to-transparent pointer-events-none dark:from-primary/10 dark:via-background/10" />
+      {/* 深色模式底部光晕 */}
+      <div className="hidden dark:block absolute bottom-0 left-1/4 w-96 h-32 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+
       <div className="container relative px-4 md:px-6 py-12 md:py-16">
         <div className="grid grid-cols-2 md:grid-cols-2 gap-8">
           {Object.entries(footerLinks).map(([category, links]) => (
@@ -38,13 +42,13 @@ export default async function Footer({
                 {links.map((link) => (
                     <li key={link.name}>
                       {link.isFeedback ? (
-                        <FeedbackPopover 
+                        <FeedbackPopover
                           lang={lang}
-                          label={link.name} 
-                          email="17806556717@163.com"  // ← 替换为你的邮箱
+                          label={link.name}
+                          email="17806556717@163.com"
                         />
                       ) : (
-                        <Link 
+                        <Link
                           href={link.href}
                           className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                           {...(category === dict.footer.social
@@ -61,13 +65,13 @@ export default async function Footer({
             </div>
           ))}
         </div>
-        
+
         <div className="flex flex-col items-center justify-center mt-12 pt-8 border-t space-y-4">
           <div className="flex items-center space-x-2">
-            <ThumbsUp className="h-6 w-6" />
+            <ThumbsUp className="h-6 w-6 text-primary" />
             <span className="font-semibold">{dict.common.brand}</span>
           </div>
-          
+
           <div className="text-sm text-muted-foreground">
             <p>{dict.footer.copyright}</p>
           </div>

@@ -259,6 +259,11 @@
       "title": "Login Required",
       "description": "Please sign in to access the AI diagnosis demo",
       "signin": "Sign In"
+    },
+    "imageAlt": {
+      "preview": "Uploaded lung X-ray image preview",
+      "gradcam": "Grad-CAM++ visualization showing AI attention regions for diagnosis",
+      "attention": "Attention map visualization showing model's global focus points"
     }
   }
 }

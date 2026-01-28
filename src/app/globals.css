@@ -51,7 +51,11 @@
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
 
-    /* 危险色 */
+    /* 危险色 - 用于分类结果中的恶性标记 */
+    --danger: 346 77% 49%;
+    --danger-foreground: 0 0% 100%;
+
+    /* 危险色 - 用于错误状态 */
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
@@ -102,7 +106,11 @@
     --warning: 38 92% 55%;
     --warning-foreground: 222 47% 8%;
 
-    /* 危险色 */
+    /* 危险色 - 用于分类结果中的恶性标记 */
+    --danger: 346 77% 55%;
+    --danger-foreground: 0 0% 100%;
+
+    /* 危险色 - 用于错误状态 */
     --destructive: 0 62% 38%;
     --destructive-foreground: 0 0% 98%;
 
@@ -317,5 +325,31 @@
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
+  }
+}
+
+/* ============================================================================
+ * 减少动效偏好支持 (prefers-reduced-motion)
+ * ============================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-fade-in,
+  .animate-fade-in-up,
+  .animate-slide-in-bottom,
+  .animate-pulse-soft,
+  .animate-float,
+  .animate-gradient,
+  .animate-ripple,
+  .card-hover {
+    animation: none !important;
+    transition: none !important;
   }
 }

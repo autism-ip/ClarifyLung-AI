@@ -4,8 +4,10 @@ import { Locale } from "@/i18n/config"
 export default async function NotFoundPage({
   params
 }: {
-  params: Promise<{ lang: Locale }>
+  params: Promise<{ lang: Locale }> | undefined
 }) {
-  const { lang } = await params
+  // not-found.tsx 的 params 可能是 undefined
+  const resolvedParams = await params
+  const lang = resolvedParams?.lang ?? 'en' as Locale
   return <NotFoundContent lang={lang} />
 }
