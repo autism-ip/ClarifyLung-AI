@@ -55,12 +55,16 @@ export default async function Hero({
 
   return (
     <section className="relative w-full py-20 md:py-32 lg:py-40 overflow-hidden">
-      {/* 背景渐变装饰 */}
+      {/* 背景渐变装饰 - 增强深色模式 */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl mx-auto">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse-soft" />
-          <div className="absolute top-20 right-1/4 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-pulse-soft" style={{ animationDelay: '1s' }} />
-          <div className="absolute bottom-0 left-1/3 w-72 h-72 bg-primary/5 rounded-full blur-3xl animate-pulse-soft" style={{ animationDelay: '2s' }} />
+          {/* 深色模式增强 */}
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 dark:bg-primary/20 rounded-full blur-3xl animate-pulse-soft" />
+          <div className="absolute top-20 right-1/4 w-80 h-80 bg-accent/10 dark:bg-accent/20 rounded-full blur-3xl animate-pulse-soft" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-0 left-1/3 w-72 h-72 bg-primary/5 dark:bg-primary/15 rounded-full blur-3xl animate-pulse-soft" style={{ animationDelay: '2s' }} />
+          {/* 深色模式额外光晕 */}
+          <div className="hidden dark:block absolute top-1/3 right-1/3 w-64 h-64 bg-success/10 rounded-full blur-3xl animate-pulse-soft" style={{ animationDelay: '0.5s' }} />
+          <div className="hidden dark:block absolute bottom-1/4 right-1/4 w-48 h-48 bg-primary/10 rounded-full blur-3xl animate-pulse-soft" style={{ animationDelay: '1.5s' }} />
         </div>
       </div>
 

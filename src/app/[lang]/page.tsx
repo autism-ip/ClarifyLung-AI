@@ -9,10 +9,11 @@ import { getDictionary } from '@/i18n/get-dictionary'
 import type { Locale } from '@/i18n/config'
 
 export default async function Home({
-  params: { lang }
+  params
 }: {
-  params: { lang: Locale }
+  params: Promise<{ lang: Locale }>
 }) {
+  const { lang } = await params
   const dict = await getDictionary(lang)
 
   return (

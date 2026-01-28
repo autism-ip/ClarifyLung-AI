@@ -5,6 +5,8 @@
  * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
  */
 
+'use client'
+
 import * as React from "react"
 import { cn } from "@/lib/utils"
 

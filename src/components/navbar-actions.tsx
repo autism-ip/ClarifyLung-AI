@@ -18,7 +18,7 @@ export function NavbarActions({ lang, dict }: NavbarActionsProps) {
 
   if (isLoading) {
     return (
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center gap-2">
         <ThemeToggle />
         <LanguageSwitcher />
         <div className="w-8 h-8 rounded-full bg-muted animate-pulse" />
@@ -27,7 +27,7 @@ export function NavbarActions({ lang, dict }: NavbarActionsProps) {
   }
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center gap-2">
       <ThemeToggle />
       <LanguageSwitcher />
       {isAuthenticated ? (

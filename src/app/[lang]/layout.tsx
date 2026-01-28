@@ -9,8 +9,6 @@ import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { Toaster } from "react-hot-toast";
 import { BreadcrumbWrapper } from "@/components/breadcrumb-wrapper";
-import { PageTransition } from "@/components/page-transition";
-import { MobileLayout } from "@/components/mobile-layout";
 
 // 标题字体：Geist Sans - 科技感强
 // 注意：GeistSans 自动注入 class，无需手动配置 variable
@@ -103,11 +101,9 @@ export default async function RootLayout({
           <Toaster position="top-center" />
           <div className="relative flex min-h-screen flex-col">
             <Navbar lang={lang} />
-            <main className="flex-1 pb-16 md:pb-0">
-              <MobileLayout lang={lang} dict={dict as any}>
-                <BreadcrumbWrapper lang={lang} dict={dict} />
-                <PageTransition>{children}</PageTransition>
-              </MobileLayout>
+            <main className="flex-1">
+              <BreadcrumbWrapper lang={lang} dict={dict} />
+              {children}
             </main>
             <Footer lang={lang} />
           </div>
