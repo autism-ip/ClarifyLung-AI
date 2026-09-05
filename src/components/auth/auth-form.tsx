@@ -1,9 +1,18 @@
+/**
+ * [INPUT]: 依赖 @/components/ui/{button,input,label}, @/components/icons,
+ *           @/lib/supabase, @/i18n/get-dictionary, react-hot-toast,
+ *           next/navigation, next/link, lucide-react
+ * [OUTPUT]: 对外提供 AuthForm 登录/注册双模式表单组件
+ * [POS]: components/auth 的认证表单核心，被 signin-content 与 signup-content 消费
+ * [PROTOCOL]: 变更时更新此头部，然后检查 CLAUDE.md
+ */
 "use client"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Icons } from "@/components/icons"
+import { Info } from "lucide-react"
 import { useState, useEffect } from "react"
 import { getDictionary } from "@/i18n/get-dictionary"
 import type { Locale } from "@/i18n/config"
@@ -40,6 +49,11 @@ export function AuthForm({ mode, lang }: AuthFormProps) {
       }
       if (!password.trim()) {
         throw new Error(dict.auth.form.errors?.passwordRequired || '请输入密码')
+      }
+
+      // 注册模式:密码长度 ≥ 6 位
+      if (mode === "signup" && password.length < 6) {
+        throw new Error(dict.auth.signup.errors?.passwordTooShort || '密码长度至少为 6 位')
       }
 
       if (mode === "signin") {
@@ -170,8 +184,8 @@ export function AuthForm({ mode, lang }: AuthFormProps) {
           <Icons.google className="mr-2 h-4 w-4" />
           Google
         </Button>
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           disabled={isLoading}
           onClick={() => window.location.href = `/api/auth/github?lang=${lang}`}
         >
@@ -179,6 +193,11 @@ export function AuthForm({ mode, lang }: AuthFormProps) {
           GitHub
         </Button>
       </div>
+      {/* OAuth 开发中提示 */}
+      <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-muted-foreground">
+        <Info className="h-3.5 w-3.5 shrink-0" />
+        {dict.auth.form.oauthNotice}
+      </p>
     </div>
   )
 }

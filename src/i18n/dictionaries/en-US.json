@@ -151,13 +151,17 @@
       "hasAccount": "Already have an account?",
       "signinLink": "Sign in",
       "success": "Sign up successful!",
-      "error": "Sign up failed, please check your email and password!"
+      "error": "Sign up failed, please check your email and password!",
+      "errors": {
+        "passwordTooShort": "Password must be at least 6 characters"
+      }
     },
     "form": {
       "email": "Email",
       "password": "Password",
       "emailPlaceholder": "name@example.com",
       "continueWith": "Or continue with",
+      "oauthNotice": "Google & GitHub sign-in is under development. Please sign up with email to explore",
       "errors": {
         "emailRequired": "Please enter your email",
         "passwordRequired": "Please enter your password"
