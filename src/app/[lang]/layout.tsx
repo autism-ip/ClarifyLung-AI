@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
-import { Inter } from "next/font/google";
 import "../globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -10,14 +9,8 @@ import { getDictionary } from "@/i18n/get-dictionary";
 import { Toaster } from "react-hot-toast";
 import { BreadcrumbWrapper } from "@/components/breadcrumb-wrapper";
 
-// 标题字体：Geist Sans - 科技感强
-// 注意：GeistSans 自动注入 class，无需手动配置 variable
-
-// 正文字体：Inter - 清晰易读
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+// 字体策略：Geist Sans（本地内置 woff，与 Inter 同源同形）
+// 避免 next/font/google 编译期外联 Google Fonts —— 受限网络下构建即失败
 
 export async function generateMetadata({
   params,
@@ -91,7 +84,7 @@ export default async function RootLayout({
 
   return (
     <html lang={lang} suppressHydrationWarning>
-      <body className={`${GeistSans.className} ${inter.variable} font-sans antialiased`}>
+      <body className={`${GeistSans.className} font-sans antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
