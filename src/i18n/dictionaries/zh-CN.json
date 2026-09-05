@@ -145,19 +145,23 @@
       }
     },
     "signup": {
-      "title": "创建账号", 
+      "title": "创建账号",
       "description": "请输入您的邮箱和密码注册",
       "submitButton": "注册",
       "hasAccount": "已有账号?",
       "signinLink": "登录",
       "success": "注册成功!",
-      "error": "注册失败,请检查邮箱和密码!"
+      "error": "注册失败,请检查邮箱和密码!",
+      "errors": {
+        "passwordTooShort": "密码长度至少为 6 位"
+      }
     },
     "form": {
       "email": "邮箱",
       "password": "密码",
       "emailPlaceholder": "name@example.com",
       "continueWith": "或继续使用",
+      "oauthNotice": "Google 与 GitHub 登录功能持续开发中,请直接注册邮箱账号体验",
       "errors": {
         "emailRequired": "请输入邮箱",
         "passwordRequired": "请输入密码"
