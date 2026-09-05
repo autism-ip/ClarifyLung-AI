@@ -153,7 +153,12 @@
       "success": "Sign up successful!",
       "error": "Sign up failed, please check your email and password!",
       "errors": {
-        "passwordTooShort": "Password must be at least 6 characters"
+        "passwordWeak": "Password must be at least 6 characters and contain both letters and numbers"
+      },
+      "passwordHint": {
+        "minLength": "At least 6 characters",
+        "letter": "Contains a letter",
+        "number": "Contains a number"
       }
     },
     "form": {

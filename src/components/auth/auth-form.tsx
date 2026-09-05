@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Icons } from "@/components/icons"
-import { Info } from "lucide-react"
+import { Check, Info } from "lucide-react"
 import { useState, useEffect } from "react"
 import { getDictionary } from "@/i18n/get-dictionary"
 import type { Locale } from "@/i18n/config"
@@ -24,6 +24,21 @@ import Link from "next/link"
 interface AuthFormProps {
   mode: "signin" | "signup"
   lang: Locale
+}
+
+// 密码复杂度规则(注册模式硬性要求):≥6 位,且同时包含英文字母与数字
+// 单一事实来源 —— 实时提示清单与提交校验共用同一数组,杜绝规则漂移
+type PasswordRuleId = "minLength" | "letter" | "number"
+
+const LETTER_RE = /[A-Za-z]/
+const DIGIT_RE = /\d/
+
+function passwordChecks(password: string): { id: PasswordRuleId; ok: boolean }[] {
+  return [
+    { id: "minLength", ok: password.length >= 6 },
+    { id: "letter", ok: LETTER_RE.test(password) },
+    { id: "number", ok: DIGIT_RE.test(password) },
+  ]
 }
 
 export function AuthForm({ mode, lang }: AuthFormProps) {
@@ -39,6 +54,11 @@ export function AuthForm({ mode, lang }: AuthFormProps) {
 
   if (!dict) return null
 
+  // 注册模式的实时密码规则清单(与提交校验共用 passwordChecks)
+  const pwdChecks = mode === "signup" ? passwordChecks(password) : []
+  const pwdAllMet = pwdChecks.length > 0 && pwdChecks.every((c) => c.ok)
+  const pwdHint = dict.auth.signup.passwordHint
+
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault()
     setIsLoading(true)
@@ -51,9 +71,9 @@ export function AuthForm({ mode, lang }: AuthFormProps) {
         throw new Error(dict.auth.form.errors?.passwordRequired || '请输入密码')
       }
 
-      // 注册模式:密码长度 ≥ 6 位
-      if (mode === "signup" && password.length < 6) {
-        throw new Error(dict.auth.signup.errors?.passwordTooShort || '密码长度至少为 6 位')
+      // 注册模式:密码须通过复杂度检查(≥6 位 + 字母 + 数字)
+      if (mode === "signup" && !passwordChecks(password).every((c) => c.ok)) {
+        throw new Error(dict.auth.signup.errors?.passwordWeak || '密码需至少 6 位,且同时包含字母和数字')
       }
 
       if (mode === "signin") {
@@ -156,6 +176,26 @@ export function AuthForm({ mode, lang }: AuthFormProps) {
               onChange={(e) => setPassword(e.target.value)}
               className="rounded-[0.75rem]"
             />
+            {/* 注册模式:密码复杂度实时提示,满足全部规则后自动隐藏 */}
+            {!pwdAllMet && (
+              <ul className="mt-2 space-y-1.5">
+                {pwdChecks.map((c) => (
+                  <li
+                    key={c.id}
+                    className={`flex items-center gap-1.5 text-xs ${
+                      c.ok ? "text-success" : "text-muted-foreground"
+                    }`}
+                  >
+                    {c.ok ? (
+                      <Check className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                    ) : (
+                      <span aria-hidden="true" className="h-3 w-3 shrink-0 rounded-full border border-current opacity-50" />
+                    )}
+                    {pwdHint?.[c.id] || c.id}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <Button disabled={isLoading}>
             {isLoading && (

@@ -153,7 +153,12 @@
       "success": "注册成功!",
       "error": "注册失败,请检查邮箱和密码!",
       "errors": {
-        "passwordTooShort": "密码长度至少为 6 位"
+        "passwordWeak": "密码需至少 6 位,且同时包含字母和数字"
+      },
+      "passwordHint": {
+        "minLength": "至少 6 个字符",
+        "letter": "包含英文字母",
+        "number": "包含数字"
       }
     },
     "form": {
